@@ -1,16 +1,15 @@
-import { useState } from "react";
-import Alert from "./components/Alert";
-import Button from "./components/Button";
+import MotorcycleDetails from "./features/Motorcycles/MotorcycleDetails";
+import MotorcyclesList from "./features/Motorcycles/MotorcyclesList";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
-  const [alertVisibility, setAlertVisibility] = useState(false);
   return (
-    <div>
-      {alertVisibility && (
-        <Alert onClose={() => setAlertVisibility(false)}>Welcome!</Alert>
-      )}
-      <Button onClick={() => setAlertVisibility(true)}>Button</Button>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<MotorcyclesList />} />
+        <Route path="/motorcycles/:id" element={<MotorcycleDetails />} />
+      </Routes>
+    </Router>
   );
 };
 
