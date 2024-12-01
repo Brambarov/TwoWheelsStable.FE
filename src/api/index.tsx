@@ -38,6 +38,15 @@ export const updateMotorcycle = async (id: number, data: any) =>
 export const deleteMotorcycle = async (id: number) =>
   await api.delete(`/motorcycles/${id}`);
 
-//Users
 export const getMotorcyclesByUserId = async (id: string) =>
   await api.get(`/users/${id}/motorcycles`);
+
+// Comments
+export const createComment = async (id: number, data: any) =>
+  await api.post(`/motorcycles/${id}/comments`, data);
+
+export const updateComment = async (id: number, data: any) =>
+  await api.put(`/comments/${id}`, data);
+
+export const deleteComment = async (id: number) =>
+  await api.post(`/comments/${id}`);

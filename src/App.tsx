@@ -1,4 +1,4 @@
-import MotorcycleDetails from "./features/Motorcycles/MotorcycleDetails";
+import Details from "./features/Details/Details";
 import Gallery from "./components/Gallery/Gallery";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
@@ -20,12 +20,11 @@ const App = () => {
       <Navbar onLogout={handleLogout} />
 
       <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
         <Route
           path="/"
           element={<Gallery fetchMotorcycles={getMotorcycles} />}
         />
+        <Route path="/login" element={<Login />} />
         <Route
           path="/stable"
           element={
@@ -36,7 +35,8 @@ const App = () => {
             )
           }
         />
-        <Route path="/motorcycles/:id" element={<MotorcycleDetails />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/motorcycles/:id" element={<Details />} />
       </Routes>
     </div>
   );

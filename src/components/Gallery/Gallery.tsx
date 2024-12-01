@@ -23,8 +23,6 @@ const Gallery: React.FC<Props> = ({
   minCardsPerRow = 3,
   maxCardsPerRow = 6,
 }) => {
-  console.log("Gallery rendering");
-
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [error, setError] = useState("");
   const [cardsPerRow, setCardsPerRow] = useState<number>(3);
