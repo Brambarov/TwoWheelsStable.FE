@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
+import { useAuth } from "../context/AuthContext";
 
-const Login: React.FC = () => {
+interface Props {}
+
+const Login: React.FC<Props> = () => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,9 +18,14 @@ const Login: React.FC = () => {
     try {
       const response = await loginUser({ userName, password });
 
-      localStorage.setItem("authToken", response.data.token);
+      const userId = response.data.id;
+      const token = response.data.token;
+      localStorage.setItem("userId", userId);
+      localStorage.setItem("authToken", token);
 
-      navigate("/");
+      login(userId, token);
+
+      navigate("/stable");
     } catch (err: any) {
       setError(err.response?.data?.message || "Login failed!");
     }

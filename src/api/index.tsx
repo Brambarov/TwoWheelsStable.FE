@@ -12,15 +12,15 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-//Users
+//Auth
 export const registerUser = async (data: {
   userName: string;
   email: string;
   password: string;
-}) => await api.post("/users/register", data);
+}) => await api.post("/auth/register", data);
 
 export const loginUser = async (data: { userName: string; password: string }) =>
-  await api.post("/users/login", data);
+  await api.post("/auth/login", data);
 
 // Motorcycles
 export const getMotorcycles = async (queryParams?: any) =>
@@ -37,3 +37,7 @@ export const updateMotorcycle = async (id: number, data: any) =>
 
 export const deleteMotorcycle = async (id: number) =>
   await api.delete(`/motorcycles/${id}`);
+
+//Users
+export const getMotorcyclesByUserId = async (id: string) =>
+  await api.get(`/users/${id}/motorcycles`);

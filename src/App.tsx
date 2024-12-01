@@ -1,56 +1,41 @@
 import MotorcycleDetails from "./features/Motorcycles/MotorcycleDetails";
-import MotorcyclesList from "./features/Motorcycles/MotorcyclesList";
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import Gallery from "./components/Gallery/Gallery";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { useEffect, useState } from "react";
+import Navbar from "./components/Navbar/Navbar";
+import { useAuth } from "./context/AuthContext";
+import { getMotorcycles, getMotorcyclesByUserId } from "./api";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const { userId, logout } = useAuth();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-    }
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
-    setIsLoggedIn(false);
+    logout();
     navigate("/");
   };
 
-  if (isLoggedIn === null) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
-      {!isLoggedIn && (
-        <header>
-          <Link to="/login">
-            <button>Login</button>
-          </Link>
-          <Link to="/register">
-            <button>Register</button>
-          </Link>
-        </header>
-      )}
-
-      {isLoggedIn && (
-        <header>
-          <button onClick={handleLogout}>Logout</button>
-        </header>
-      )}
+      <Navbar onLogout={handleLogout} />
 
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/" element={<MotorcyclesList />} />
+        <Route
+          path="/"
+          element={<Gallery fetchMotorcycles={getMotorcycles} />}
+        />
+        <Route
+          path="/stable"
+          element={
+            userId && (
+              <Gallery
+                fetchMotorcycles={() => getMotorcyclesByUserId(userId)}
+              />
+            )
+          }
+        />
         <Route path="/motorcycles/:id" element={<MotorcycleDetails />} />
       </Routes>
     </div>
