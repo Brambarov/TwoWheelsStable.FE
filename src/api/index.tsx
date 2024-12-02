@@ -26,27 +26,36 @@ export const loginUser = async (data: { userName: string; password: string }) =>
 export const getMotorcycles = async (queryParams?: any) =>
   await api.get(`/motorcycles`, { params: queryParams });
 
-export const getMotorcycleById = async (id: number) =>
+export const getMotorcycleById = async (id: string) =>
   await api.get(`/motorcycles/${id}`);
 
 export const createMotorcycle = async (data: any) =>
   await api.post(`/motorcycles`, data);
 
-export const updateMotorcycle = async (id: number, data: any) =>
+export const updateMotorcycle = async (id: string, data: any) =>
   await api.put(`/motorcycles/${id}`, data);
 
-export const deleteMotorcycle = async (id: number) =>
+export const deleteMotorcycle = async (id: string) =>
   await api.delete(`/motorcycles/${id}`);
 
 export const getMotorcyclesByUserId = async (id: string) =>
   await api.get(`/users/${id}/motorcycles`);
 
 // Comments
-export const createComment = async (id: number, data: any) =>
+export const createComment = async (id: string, data: any) =>
   await api.post(`/motorcycles/${id}/comments`, data);
 
-export const updateComment = async (id: number, data: any) =>
+export const updateComment = async (id: string, data: any) =>
   await api.put(`/comments/${id}`, data);
 
-export const deleteComment = async (id: number) =>
-  await api.post(`/comments/${id}`);
+export const deleteComment = async (id: string) =>
+  await api.delete(`/comments/${id}`);
+
+// Comments
+export const createJob = async (id: string, data: any) =>
+  await api.post(`/motorcycles/${id}/Job`, data);
+
+export const updateJob = async (id: string, data: any) =>
+  await api.put(`/Job/${id}`, data);
+
+export const deleteJob = async (id: string) => await api.delete(`/Job/${id}`);

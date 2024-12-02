@@ -5,7 +5,7 @@ import "./Gallery.css";
 import { toNumber } from "../../utils/Number";
 
 interface Motorcycle {
-  id: number;
+  id: string;
   name: string;
   make: string;
   model: string;
@@ -52,7 +52,7 @@ const Gallery: React.FC<Props> = ({
     }
   };
 
-  const handleCardClick = (id: number) => {
+  const handleCardClick = (id: string) => {
     navigate(`/motorcycles/${id}`);
   };
 

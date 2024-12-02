@@ -22,6 +22,9 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
       </Link>
       {token ? (
         <>
+          <Link to="/motorcycles/new" className="nav-item">
+            Create Motorcycle
+          </Link>
           <Link to="/stable" className="nav-item">
             My Stable
           </Link>

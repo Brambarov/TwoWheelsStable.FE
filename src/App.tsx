@@ -1,4 +1,5 @@
-import Details from "./features/Details/Details";
+import MotorcycleDetails from "./components/Motorcycle/MotorcycleDetails/MotorcycleDetails";
+import CreateMotorcycle from "./components/Motorcycle/CreateMotorcycle/CreateMotorcycle";
 import Gallery from "./components/Gallery/Gallery";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import Login from "./pages/Login";
@@ -35,8 +36,9 @@ const App = () => {
             )
           }
         />
+        <Route path="/motorcycles/new" element={<CreateMotorcycle />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/motorcycles/:id" element={<Details />} />
+        <Route path="/motorcycles/:id" element={<MotorcycleDetails />} />
       </Routes>
     </div>
   );
