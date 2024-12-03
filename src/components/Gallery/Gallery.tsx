@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
 import "./Gallery.css";
 import { toNumber } from "../../utils/Number";
+import { getByResourceId } from "../../api";
 
 interface Motorcycle {
   id: string;
@@ -10,6 +11,7 @@ interface Motorcycle {
   make: string;
   model: string;
   owner: string;
+  image?: string | null;
 }
 
 interface Props {
@@ -34,7 +36,26 @@ const Gallery: React.FC<Props> = ({
       setIsLoading(true);
       try {
         const response = await fetchMotorcycles();
-        setMotorcycles(response.data);
+        const motorcycleData = response.data;
+
+        const motorcycleWithImages = await Promise.all(
+          motorcycleData.map(async (motorcycle) => {
+            try {
+              const imagesResponse = await getByResourceId(motorcycle.id);
+              const firstImage = imagesResponse.data[0];
+              return {
+                ...motorcycle,
+                image: firstImage
+                  ? `data:${firstImage.mimeType};base64,${firstImage.data}`
+                  : null,
+              };
+            } catch {
+              return { ...motorcycle, image: null };
+            }
+          })
+        );
+
+        setMotorcycles(motorcycleWithImages);
       } catch (err: any) {
         setError(err.response?.data?.message || "Failed to fetch motorcycles!");
       } finally {
@@ -81,6 +102,7 @@ const Gallery: React.FC<Props> = ({
             make={motorcycle.make}
             model={motorcycle.model}
             owner={motorcycle.owner}
+            image={motorcycle.image}
             onClick={() => handleCardClick(motorcycle.id)}
           />
         ))}
