@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createMotorcycle } from "../../../api";
+import { batchCreate, createMotorcycle } from "../../../api";
 import { useNavigate } from "react-router-dom";
 
 const CreateMotorcycle: React.FC = () => {
@@ -10,15 +10,22 @@ const CreateMotorcycle: React.FC = () => {
     year: "",
     mileage: "",
   });
+  const [images, setImages] = useState<File[]>([]);
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMotorcycleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setMotorcycle({
       ...motorcycle,
       [name]: value,
     });
+  };
+
+  const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -36,6 +43,15 @@ const CreateMotorcycle: React.FC = () => {
 
     try {
       const response = await createMotorcycle(motorcycle);
+      const motorcycleId = response.data.id;
+
+      if (images.length > 0) {
+        const formData = new FormData();
+        images.forEach((image) => formData.append("files", image));
+
+        await batchCreate(motorcycleId, formData);
+      }
+
       navigate(`/motorcycles/${response.data.id}`);
     } catch (err) {
       setError("Failed to create motorcycle!");
@@ -52,36 +68,38 @@ const CreateMotorcycle: React.FC = () => {
             type="text"
             name="name"
             value={motorcycle.name}
-            onChange={handleInputChange}
+            onChange={handleMotorcycleChange}
           />
           <label>Make</label>
           <input
             type="text"
             name="make"
             value={motorcycle.make}
-            onChange={handleInputChange}
+            onChange={handleMotorcycleChange}
           />
           <label>Model</label>
           <input
             type="text"
             name="model"
             value={motorcycle.model}
-            onChange={handleInputChange}
+            onChange={handleMotorcycleChange}
           />
           <label>Year</label>
           <input
             type="number"
             name="year"
             value={motorcycle.year}
-            onChange={handleInputChange}
+            onChange={handleMotorcycleChange}
           />
           <label>Mileage</label>
           <input
             type="number"
             name="mileage"
             value={motorcycle.mileage}
-            onChange={handleInputChange}
+            onChange={handleMotorcycleChange}
           />
+          <label>Images:</label>
+          <input type="file" multiple onChange={handleImagesChange} />
         </div>
         <button type="submit">Create Motorcycle</button>
       </form>

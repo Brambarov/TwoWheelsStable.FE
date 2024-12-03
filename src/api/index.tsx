@@ -12,7 +12,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-//Auth
+// Auth
 export const registerUser = async (data: {
   userName: string;
   email: string;
@@ -21,6 +21,12 @@ export const registerUser = async (data: {
 
 export const loginUser = async (data: { userName: string; password: string }) =>
   await api.post("/auth/login", data);
+
+// Images
+export const batchCreate = async (resourceId: string, data: FormData) =>
+  await api.post(`/images/${resourceId}`, data, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
 // Motorcycles
 export const getMotorcycles = async (queryParams?: any) =>
