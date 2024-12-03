@@ -28,6 +28,9 @@ export const batchCreate = async (resourceId: string, data: FormData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
+export const getByResourceId = async (resourceId: string) =>
+  await api.get(`/images/${resourceId}`);
+
 // Motorcycles
 export const getMotorcycles = async (queryParams?: any) =>
   await api.get(`/motorcycles`, { params: queryParams });

@@ -7,6 +7,7 @@ import {
   createJob,
   updateJob,
   deleteJob,
+  getByResourceId,
 } from "../../../api";
 import { useParams } from "react-router-dom";
 import { toString } from "../../../utils/String";
@@ -16,6 +17,7 @@ import "./MotorcycleDetails.css";
 const MotorcycleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [motorcycle, setMotorcycle] = useState<any>(null);
+  const [images, setImages] = useState<string[]>([]);
   const [isExpanded, setIsExpanded] = useState(false);
   const [comment, setComment] = useState({ title: "", content: "" });
   const [editComment, setEditComment] = useState<any | null>(null);
@@ -34,6 +36,13 @@ const MotorcycleDetails: React.FC = () => {
       try {
         const response = await getMotorcycleById(id);
         setMotorcycle(response.data);
+
+        const images = await getByResourceId(id);
+        setImages(
+          images.data.map(
+            (img: any) => `data:${img.mimeType};base64,${img.data}`
+          )
+        );
       } catch (err: any) {
         setError(err.response?.data?.message || "Failed to fetch motorcycle!");
       }
@@ -262,6 +271,9 @@ const MotorcycleDetails: React.FC = () => {
 
   return (
     <div>
+      {images.length > 0 && (
+        <img src={images[0]} alt="Motorcycle" style={{ maxWidth: "100%" }} />
+      )}
       <h1>{motorcycle.name}</h1>
       <p>{motorcycle.make}</p>
       <p>{motorcycle.model}</p>
