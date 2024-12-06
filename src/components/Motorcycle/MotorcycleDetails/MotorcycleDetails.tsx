@@ -18,7 +18,7 @@ import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/SpecsTable/SpecsTable";
 import Schedule from "../../Schedule/Schedule";
-import CommentsSection from "../../Comment/CommentSection";
+import Section from "../../Section/Section";
 
 const MotorcycleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,7 +27,6 @@ const MotorcycleDetails: React.FC = () => {
   const [editComment, setEditComment] = useState<any | null>(null);
   const [editJob, setEditJob] = useState<any | null>(null);
   const [error, setError] = useState("");
-
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
 
@@ -96,10 +95,10 @@ const MotorcycleDetails: React.FC = () => {
   };
 
   const handleEditComment = (id: string) => {
-    const commentToEdit = motorcycle.comments.find(
+    const comment = motorcycle.comments.find(
       (comment: any) => comment.id === id
     );
-    setEditComment(commentToEdit);
+    setEditComment(comment);
   };
 
   const handleEditJob = (id: any) => {
@@ -114,7 +113,6 @@ const MotorcycleDetails: React.FC = () => {
         comment.id === id ? response.data : comment
       );
       setMotorcycle({ ...motorcycle, comments: comments });
-      setEditComment(null);
     } catch (err: any) {
       setError("Failed to edit comment!");
     }
@@ -158,36 +156,6 @@ const MotorcycleDetails: React.FC = () => {
 
   if (error) return <p>{error}</p>;
   if (!motorcycle) return <p>Loading...</p>;
-
-  if (editComment) {
-    return (
-      <div>
-        <h2>Edit Comment</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitEditComment(editComment.id, editComment);
-          }}
-        >
-          <input
-            type="text"
-            value={editComment.title}
-            onChange={(e) =>
-              setEditComment({ ...editComment, title: e.target.value })
-            }
-          />
-          <textarea
-            value={editComment.content}
-            onChange={(e) =>
-              setEditComment({ ...editComment, content: e.target.value })
-            }
-          />
-          <button type="submit">Save</button>
-        </form>
-        <button onClick={() => setEditComment(null)}>Cancel</button>
-      </div>
-    );
-  }
 
   if (editJob) {
     return (
@@ -259,16 +227,20 @@ const MotorcycleDetails: React.FC = () => {
 
       <Schedule
         jobs={motorcycle.jobs}
-        onCreate={handleCreateJob}
+        onCreate={(job) => handleCreateJob(job)}
         onEdit={(id) => handleEditJob(id)}
         onDelete={(id) => handleDeleteJob(id)}
       />
 
-      <CommentsSection
+      <Section
         comments={motorcycle.comments}
-        onCreate={handleCreateComment}
+        motorcycleId={motorcycle.id}
+        onCreate={(comment) => handleCreateComment(comment)}
         onEdit={(id) => handleEditComment(id)}
         onDelete={(id) => handleDeleteComment(id)}
+        submitEditComment={(id, comment) => submitEditComment(id, comment)}
+        editComment={editComment}
+        setEditComment={setEditComment}
       />
     </div>
   );

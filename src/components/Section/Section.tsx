@@ -1,14 +1,38 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const CommentsSection: React.FC<{
+const Section: React.FC<{
   comments: any[];
+  motorcycleId: string;
   onCreate: (comment: any) => void;
   onEdit: (comment: any) => void;
   onDelete: (id: string) => void;
-}> = ({ comments, onCreate, onEdit, onDelete }) => {
+  submitEditComment: (id: string, comment: any) => void;
+  editComment: any;
+  setEditComment: any;
+}> = ({
+  comments,
+  motorcycleId,
+  onCreate,
+  onEdit,
+  onDelete,
+  submitEditComment,
+  editComment,
+  setEditComment,
+}) => {
   const [comment, setComment] = useState({ title: "", content: "" });
-  const [editComment, setEditComment] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (editComment) {
+      setComment({ title: editComment.title, content: editComment.content });
+      setIsEditing(true);
+    } else {
+      setComment({ title: "", content: "" });
+      setIsEditing(false);
+    }
+  }, [editComment]);
 
   const handleCommentInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -31,9 +55,8 @@ const CommentsSection: React.FC<{
 
   const handleEditComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    onEdit(editComment);
-    setIsEditing(false);
-    setEditComment({ id: "", title: "", content: "" });
+    submitEditComment(editComment.id, comment);
+    setEditComment(null);
   };
 
   return (
@@ -66,15 +89,8 @@ const CommentsSection: React.FC<{
               type="text"
               id="title"
               name="title"
-              value={isEditing ? editComment.title : comment.title}
-              onChange={(e) =>
-                isEditing
-                  ? setEditComment({
-                      ...editComment,
-                      [e.target.name]: e.target.value,
-                    })
-                  : handleCommentInputChange
-              }
+              value={comment.title}
+              onChange={handleCommentInputChange}
               required
             />
           </div>
@@ -83,19 +99,15 @@ const CommentsSection: React.FC<{
             <textarea
               id="content"
               name="content"
-              value={isEditing ? editComment.content : comment.content}
-              onChange={(e) =>
-                isEditing
-                  ? setEditComment({
-                      ...editComment,
-                      [e.target.name]: e.target.value,
-                    })
-                  : handleCommentInputChange
-              }
+              value={comment.content}
+              onChange={handleCommentInputChange}
               required
             />
           </div>
-          <button type="submit">
+          <button
+            type="submit"
+            onClick={() => navigate(`/motorcycles/${motorcycleId}`)}
+          >
             {isEditing ? "Save Changes" : "Submit Comment"}
           </button>
         </form>
@@ -104,4 +116,4 @@ const CommentsSection: React.FC<{
   );
 };
 
-export default CommentsSection;
+export default Section;
