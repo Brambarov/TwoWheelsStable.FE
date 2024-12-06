@@ -1,18 +1,28 @@
 import { useEffect, useState } from "react";
 import {
-  getMotorcycleById,
+  getMotorcycle,
   createComment,
   updateComment,
   deleteComment,
   createJob,
   updateJob,
   deleteJob,
-  getByResourceId,
+  getImageByResourceId,
+  deleteMotorcycle,
 } from "../../../api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toString } from "../../../utils/String";
 import "../../Comments/Comment.css";
 import "./MotorcycleDetails.css";
+
+// interface Props {
+//   id: string;
+//   name: string;
+//   make: string;
+//   model: string;
+//   year: number;
+//   mileage: number;
+// }
 
 const MotorcycleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,15 +39,17 @@ const MotorcycleDetails: React.FC = () => {
     dueMileage: 0,
   });
   const [editJob, setEditJob] = useState<any | null>(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const navigate = useNavigate();
   const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchMotorcycle = async (id: string) => {
       try {
-        const response = await getMotorcycleById(id);
+        const response = await getMotorcycle(id);
         setMotorcycle(response.data);
 
-        const images = await getByResourceId(id);
+        const images = await getImageByResourceId(id);
         setImages(
           images.data.map(
             (img: any) => `data:${img.mimeType};base64,${img.data}`
@@ -53,6 +65,17 @@ const MotorcycleDetails: React.FC = () => {
       fetchMotorcycle(stringId);
     }
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      await deleteMotorcycle(id!);
+      navigate("/stable");
+    } catch (err) {
+      setError("Failed to delete motorcycle!");
+    } finally {
+      setShowConfirmation(false);
+    }
+  };
 
   const toggleTable = () => setIsExpanded(!isExpanded);
 
@@ -281,6 +304,22 @@ const MotorcycleDetails: React.FC = () => {
       <p>{motorcycle.mileage}</p>
       <p>{motorcycle.owner}</p>
 
+      <button onClick={() => navigate(`/motorcycles/edit/${motorcycle.id}`)}>
+        Update
+      </button>
+
+      <button onClick={() => setShowConfirmation(true)}>Delete</button>
+
+      {showConfirmation && (
+        <div className="modal">
+          <div className="modal-content">
+            <p>Are you sure you want to delete this motorcycle?</p>
+            <button onClick={handleDelete}>Yes</button>
+            <button onClick={() => setShowConfirmation(false)}>No</button>
+          </div>
+        </div>
+      )}
+
       <div>
         <h2
           style={{
@@ -290,9 +329,6 @@ const MotorcycleDetails: React.FC = () => {
           }}
         >
           Specifications
-          <button onClick={toggleTable}>
-            {!isExpanded ? "Expand" : "Compact"}
-          </button>
         </h2>
         <table>
           <thead>
@@ -312,6 +348,26 @@ const MotorcycleDetails: React.FC = () => {
               ))}
           </tbody>
         </table>
+        <button onClick={toggleTable}>
+          {!isExpanded ? "Expand" : "Compact"}
+        </button>
+      </div>
+
+      <div>
+        <h2>Maintenance Schedule</h2>
+        <ul>
+          {motorcycle.jobs.map((job: any) => (
+            <li key={job.id}>
+              <h3>{job.title}</h3>
+              <p>{job.description}</p>
+              <p>Cost: {job.cost}</p>
+              <p>Due Date: {job.dueDate}</p>
+              <p>Due Mileage: {job.dueMileage}</p>
+              <button onClick={() => handleEditJob(job.id)}>Edit</button>
+              <button onClick={() => handleDeleteJob(job.id)}>Delete</button>
+            </li>
+          ))}
+        </ul>
       </div>
 
       <div>
@@ -355,23 +411,6 @@ const MotorcycleDetails: React.FC = () => {
           />
           <button type="submit">Create Job</button>
         </form>
-      </div>
-
-      <div>
-        <h2>Maintenance Schedule</h2>
-        <ul>
-          {motorcycle.jobs.map((job: any) => (
-            <li key={job.id}>
-              <h3>{job.title}</h3>
-              <p>{job.description}</p>
-              <p>Cost: {job.cost}</p>
-              <p>Due Date: {job.dueDate}</p>
-              <p>Due Mileage: {job.dueMileage}</p>
-              <button onClick={() => handleEditJob(job.id)}>Edit</button>
-              <button onClick={() => handleDeleteJob(job.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
       </div>
 
       <div>

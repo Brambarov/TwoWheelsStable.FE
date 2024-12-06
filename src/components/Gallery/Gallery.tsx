@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
 import "./Gallery.css";
 import { toNumber } from "../../utils/Number";
-import { getByResourceId } from "../../api";
+import { getImageByResourceId } from "../../api";
 
 interface Motorcycle {
   id: string;
@@ -41,7 +41,7 @@ const Gallery: React.FC<Props> = ({
         const motorcycleWithImages = await Promise.all(
           motorcycleData.map(async (motorcycle) => {
             try {
-              const imagesResponse = await getByResourceId(motorcycle.id);
+              const imagesResponse = await getImageByResourceId(motorcycle.id);
               const firstImage = imagesResponse.data[0];
               return {
                 ...motorcycle,

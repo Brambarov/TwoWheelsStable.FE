@@ -28,14 +28,14 @@ export const batchCreate = async (resourceId: string, data: FormData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-export const getByResourceId = async (resourceId: string) =>
+export const getImageByResourceId = async (resourceId: string) =>
   await api.get(`/images/${resourceId}`);
 
 // Motorcycles
 export const getMotorcycles = async (queryParams?: any) =>
   await api.get(`/motorcycles`, { params: queryParams });
 
-export const getMotorcycleById = async (id: string) =>
+export const getMotorcycle = async (id: string) =>
   await api.get(`/motorcycles/${id}`);
 
 export const createMotorcycle = async (data: any) =>
@@ -62,9 +62,9 @@ export const deleteComment = async (id: string) =>
 
 // Comments
 export const createJob = async (id: string, data: any) =>
-  await api.post(`/motorcycles/${id}/Job`, data);
+  await api.post(`/motorcycles/${id}/jobs`, data);
 
 export const updateJob = async (id: string, data: any) =>
-  await api.put(`/Job/${id}`, data);
+  await api.put(`/jobs/${id}`, data);
 
-export const deleteJob = async (id: string) => await api.delete(`/Job/${id}`);
+export const deleteJob = async (id: string) => await api.delete(`/jobs/${id}`);
