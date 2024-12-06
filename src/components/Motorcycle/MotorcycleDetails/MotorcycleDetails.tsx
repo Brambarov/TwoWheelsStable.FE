@@ -12,36 +12,24 @@ import {
 } from "../../../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { toString } from "../../../utils/String";
-import "../../Comments/Comment.css";
+import "../../Comment/Comment.css";
 import "./MotorcycleDetails.css";
-
-// interface Props {
-//   id: string;
-//   name: string;
-//   make: string;
-//   model: string;
-//   year: number;
-//   mileage: number;
-// }
+import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
+import ConfirmModal from "../../ConfirmModal/ConfirmModal";
+import SpecsTable from "../../Specs/SpecsTable/SpecsTable";
+import Schedule from "../../Schedule/Schedule";
+import CommentsSection from "../../Comment/CommentSection";
 
 const MotorcycleDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [comment, setComment] = useState({ title: "", content: "" });
   const [editComment, setEditComment] = useState<any | null>(null);
-  const [job, setJob] = useState({
-    title: "",
-    description: "",
-    cost: 0,
-    dueDate: "",
-    dueMileage: 0,
-  });
   const [editJob, setEditJob] = useState<any | null>(null);
+  const [error, setError] = useState("");
+
   const [showConfirmation, setShowConfirmation] = useState(false);
   const navigate = useNavigate();
-  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchMotorcycle = async (id: string) => {
@@ -77,30 +65,7 @@ const MotorcycleDetails: React.FC = () => {
     }
   };
 
-  const toggleTable = () => setIsExpanded(!isExpanded);
-
-  const handleCommentInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setComment({
-      ...comment,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleJobInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setJob({ ...job, [e.target.name]: e.target.value });
-  };
-
-  const handleCommentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!comment.title || !comment.content) {
-      setError("Both title and content are required!");
-      return;
-    }
-
+  const handleCreateComment = async (comment: any) => {
     try {
       const stringId = toString(id);
       if (stringId) {
@@ -109,27 +74,13 @@ const MotorcycleDetails: React.FC = () => {
           ...motorcycle,
           comments: [...motorcycle.comments, response.data],
         });
-
-        setComment({ title: "", content: "" });
       }
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to post comment!");
     }
   };
 
-  const handleJobSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (
-      !job.title ||
-      !job.description ||
-      !job.cost ||
-      !job.dueDate ||
-      !job.dueMileage
-    ) {
-      setError("All fields are required!");
-      return;
-    }
-
+  const handleCreateJob = async (job: any) => {
     try {
       const stringId = toString(id);
       if (stringId) {
@@ -137,14 +88,6 @@ const MotorcycleDetails: React.FC = () => {
         setMotorcycle({
           ...motorcycle,
           jobs: [...motorcycle.jobs, response.data],
-        });
-
-        setJob({
-          title: "",
-          description: "",
-          cost: 0,
-          dueDate: "",
-          dueMileage: 0,
         });
       }
     } catch (err: any) {
@@ -294,176 +237,39 @@ const MotorcycleDetails: React.FC = () => {
 
   return (
     <div>
-      {images.length > 0 && (
-        <img src={images[0]} alt="Motorcycle" style={{ maxWidth: "100%" }} />
-      )}
-      <h1>{motorcycle.name}</h1>
-      <p>{motorcycle.make}</p>
-      <p>{motorcycle.model}</p>
-      <p>{motorcycle.year}</p>
-      <p>{motorcycle.mileage}</p>
-      <p>{motorcycle.owner}</p>
-
-      <button onClick={() => navigate(`/motorcycles/edit/${motorcycle.id}`)}>
-        Update
-      </button>
-
-      <button onClick={() => setShowConfirmation(true)}>Delete</button>
-
-      {showConfirmation && (
-        <div className="modal">
-          <div className="modal-content">
-            <p>Are you sure you want to delete this motorcycle?</p>
-            <button onClick={handleDelete}>Yes</button>
-            <button onClick={() => setShowConfirmation(false)}>No</button>
-          </div>
-        </div>
-      )}
-
       <div>
-        <h2
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          Specifications
-        </h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Property</th>
-              <th>Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            {Object.entries(motorcycle.specs)
-              .slice(0, isExpanded ? motorcycle.specs.length : 5)
-              .map(([key, value]) => (
-                <tr key={key}>
-                  <td>{key}</td>
-                  <td>{toString(value)}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
-        <button onClick={toggleTable}>
-          {!isExpanded ? "Expand" : "Compact"}
+        <MotorcycleHeader motorcycle={motorcycle} images={images} />
+
+        <button onClick={() => navigate(`/motorcycles/edit/${motorcycle.id}`)}>
+          Update
         </button>
+
+        <button onClick={() => setShowConfirmation(true)}>Delete</button>
+
+        {showConfirmation && (
+          <ConfirmModal
+            message="Are you sure you want to delete this motorcycle?"
+            onConfirm={handleDelete}
+            onCancel={() => setShowConfirmation(false)}
+          />
+        )}
       </div>
 
-      <div>
-        <h2>Maintenance Schedule</h2>
-        <ul>
-          {motorcycle.jobs.map((job: any) => (
-            <li key={job.id}>
-              <h3>{job.title}</h3>
-              <p>{job.description}</p>
-              <p>Cost: {job.cost}</p>
-              <p>Due Date: {job.dueDate}</p>
-              <p>Due Mileage: {job.dueMileage}</p>
-              <button onClick={() => handleEditJob(job.id)}>Edit</button>
-              <button onClick={() => handleDeleteJob(job.id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <SpecsTable specs={motorcycle.specs} />
 
-      <div>
-        <h2>Add Job</h2>
-        <form onSubmit={handleJobSubmit}>
-          <input
-            type="text"
-            name="title"
-            placeholder="Job Title"
-            value={job.title}
-            onChange={handleJobInputChange}
-            required
-          />
-          <textarea
-            name="description"
-            placeholder="Job Description"
-            value={job.description}
-            onChange={handleJobInputChange}
-            required
-          />
-          <input
-            type="number"
-            name="cost"
-            placeholder="Cost"
-            value={job.cost}
-            onChange={handleJobInputChange}
-            required
-          />
-          <input
-            type="date"
-            name="dueDate"
-            value={job.dueDate}
-            onChange={handleJobInputChange}
-          />
-          <input
-            type="number"
-            name="dueMileage"
-            placeholder="Due Mileage"
-            value={job.dueMileage}
-            onChange={handleJobInputChange}
-          />
-          <button type="submit">Create Job</button>
-        </form>
-      </div>
+      <Schedule
+        jobs={motorcycle.jobs}
+        onCreate={handleCreateJob}
+        onEdit={(id) => handleEditJob(id)}
+        onDelete={(id) => handleDeleteJob(id)}
+      />
 
-      <div>
-        <h2>Add Comment</h2>
-        <form onSubmit={handleCommentSubmit}>
-          <div>
-            <label htmlFor="title">Title</label>
-            <input
-              type="text"
-              id="title"
-              name="title"
-              value={comment.title}
-              onChange={handleCommentInputChange}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="content">Content</label>
-            <textarea
-              id="content"
-              name="content"
-              value={comment.content}
-              onChange={handleCommentInputChange}
-              required
-            />
-          </div>
-          <button type="submit">Submit Comment</button>
-        </form>
-        {error && <p>{error}</p>}
-      </div>
-
-      <div>
-        <h2>Comments</h2>
-        <ul className="comments-container">
-          {motorcycle.comments.map((comment: any) => (
-            <li key={comment.id} className="comment-item">
-              <h3 className="comment-title">{comment.title}</h3>
-              <p className="comment-content">{comment.content}</p>
-              <p className="comment-footer">
-                by {comment.createdBy} on {comment.createdOn}
-              </p>
-              <div className="comment-action">
-                <button onClick={() => handleEditComment(comment.id)}>
-                  Edit
-                </button>
-                <button onClick={() => handleDeleteComment(comment.id)}>
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <CommentsSection
+        comments={motorcycle.comments}
+        onCreate={handleCreateComment}
+        onEdit={(id) => handleEditComment(id)}
+        onDelete={(id) => handleDeleteComment(id)}
+      />
     </div>
   );
 };
