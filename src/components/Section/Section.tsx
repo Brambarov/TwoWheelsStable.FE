@@ -1,9 +1,8 @@
+import "./Section.css";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 const Section: React.FC<{
   comments: any[];
-  motorcycleId: string;
   onCreate: (comment: any) => void;
   onEdit: (comment: any) => void;
   onDelete: (id: string) => void;
@@ -12,7 +11,6 @@ const Section: React.FC<{
   setEditComment: any;
 }> = ({
   comments,
-  motorcycleId,
   onCreate,
   onEdit,
   onDelete,
@@ -22,7 +20,6 @@ const Section: React.FC<{
 }) => {
   const [comment, setComment] = useState({ title: "", content: "" });
   const [isEditing, setIsEditing] = useState(false);
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (editComment) {
@@ -60,8 +57,8 @@ const Section: React.FC<{
   };
 
   return (
-    <div>
-      <div>
+    <div className="comments-container-wrapper">
+      <div className="comments-list">
         <h2>Comments</h2>
         <ul className="comments-container">
           {comments.map((comment: any) => (
@@ -80,11 +77,11 @@ const Section: React.FC<{
         </ul>
       </div>
 
-      <div>
+      <div className="comment-form">
         <h2>{isEditing ? "Edit Comment" : "Add Comment"}</h2>
         <form onSubmit={isEditing ? handleEditComment : handleCreateComment}>
           <div>
-            <label htmlFor="title">Title</label>
+            Title
             <input
               type="text"
               id="title"
@@ -95,7 +92,7 @@ const Section: React.FC<{
             />
           </div>
           <div>
-            <label htmlFor="content">Content</label>
+            Content
             <textarea
               id="content"
               name="content"
@@ -104,10 +101,7 @@ const Section: React.FC<{
               required
             />
           </div>
-          <button
-            type="submit"
-            onClick={() => navigate(`/motorcycles/${motorcycleId}`)}
-          >
+          <button type="submit">
             {isEditing ? "Save Changes" : "Submit Comment"}
           </button>
         </form>

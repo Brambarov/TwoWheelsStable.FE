@@ -102,8 +102,8 @@ const MotorcycleDetails: React.FC = () => {
   };
 
   const handleEditJob = (id: any) => {
-    const jobToEdit = motorcycle.jobs.find((job: any) => job.id === id);
-    setEditJob(jobToEdit);
+    const job = motorcycle.jobs.find((job: any) => job.id === id);
+    setEditJob(job);
   };
 
   const submitEditComment = async (id: string, updatedComment: any) => {
@@ -124,9 +124,7 @@ const MotorcycleDetails: React.FC = () => {
       const jobs = motorcycle.jobs.map((job: any) =>
         job.id === id ? response.data : job
       );
-
       setMotorcycle({ ...motorcycle, jobs: jobs });
-      setEditJob(null);
     } catch (err: any) {
       setError("Failed to edit job!");
     }
@@ -157,52 +155,6 @@ const MotorcycleDetails: React.FC = () => {
   if (error) return <p>{error}</p>;
   if (!motorcycle) return <p>Loading...</p>;
 
-  if (editJob) {
-    return (
-      <div>
-        <h2>Edit Job</h2>
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            submitEditJob(editJob.id, editJob);
-          }}
-        >
-          <input
-            type="text"
-            value={editJob.title}
-            onChange={(e) => setEditJob({ ...editJob, title: e.target.value })}
-          />
-          <textarea
-            value={editJob.description}
-            onChange={(e) =>
-              setEditJob({ ...editJob, description: e.target.value })
-            }
-          />
-          <input
-            type="number"
-            value={editJob.cost}
-            onChange={(e) => setEditJob({ ...editJob, cost: e.target.value })}
-          />
-          <input
-            type="date"
-            value={editJob.dueDate}
-            onChange={(e) =>
-              setEditJob({ ...editJob, dueDate: e.target.value })
-            }
-          />
-          <input
-            type="number"
-            value={editJob.dueMileage}
-            onChange={(e) =>
-              setEditJob({ ...editJob, dueMileage: e.target.value })
-            }
-          />
-          <button type="submit">Save</button>
-        </form>
-      </div>
-    );
-  }
-
   return (
     <div>
       <div>
@@ -230,11 +182,13 @@ const MotorcycleDetails: React.FC = () => {
         onCreate={(job) => handleCreateJob(job)}
         onEdit={(id) => handleEditJob(id)}
         onDelete={(id) => handleDeleteJob(id)}
+        submitEditJob={(id, job) => submitEditJob(id, job)}
+        editJob={editJob}
+        setEditJob={setEditJob}
       />
 
       <Section
         comments={motorcycle.comments}
-        motorcycleId={motorcycle.id}
         onCreate={(comment) => handleCreateComment(comment)}
         onEdit={(id) => handleEditComment(id)}
         onDelete={(id) => handleDeleteComment(id)}
