@@ -8,19 +8,23 @@ interface Props {
 }
 
 const Navbar: React.FC<Props> = ({ onLogout }) => {
-  const { userId, token } = useAuth();
+  const {
+    userId,
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+  } = useAuth();
 
   useEffect(() => {
-    if (userId && token) {
+    if (userId && accessToken && refreshToken) {
     }
-  }, [userId, token]);
+  }, [userId, accessToken, refreshToken]);
 
   return (
     <nav className="navbar">
       <Link to="/" className="nav-item">
         Home
       </Link>
-      {token ? (
+      {accessToken ? (
         <>
           <Link to="/motorcycles/new" className="nav-item">
             Create Motorcycle
