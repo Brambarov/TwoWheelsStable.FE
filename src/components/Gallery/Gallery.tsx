@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
 import "./Gallery.css";
-import { toNumber } from "../../utils/Number";
 import { getImageByResourceId } from "../../api";
 
 interface Motorcycle {
@@ -16,18 +15,11 @@ interface Motorcycle {
 
 interface Props {
   fetchMotorcycles: () => Promise<{ data: Motorcycle[] }>;
-  minCardsPerRow?: number;
-  maxCardsPerRow?: number;
 }
 
-const Gallery: React.FC<Props> = ({
-  fetchMotorcycles,
-  minCardsPerRow = 3,
-  maxCardsPerRow = 6,
-}) => {
+const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [error, setError] = useState("");
-  const [cardsPerRow, setCardsPerRow] = useState<number>(3);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -66,13 +58,6 @@ const Gallery: React.FC<Props> = ({
     fetchData();
   }, [fetchMotorcycles]);
 
-  const handleCardsPerRowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = toNumber(e.target.value);
-    if (newValue && newValue >= minCardsPerRow && newValue <= maxCardsPerRow) {
-      setCardsPerRow(newValue);
-    }
-  };
-
   const handleCardClick = (id: string) => {
     navigate(`/motorcycles/${id}`);
   };
@@ -82,18 +67,9 @@ const Gallery: React.FC<Props> = ({
       {isLoading && <p>Loading...</p>}
       {error && <p className="error-message">{error}</p>}
 
-      <div className="settings">
-        <label>Cards per row:</label>
-        <input
-          type="number"
-          value={cardsPerRow}
-          onChange={handleCardsPerRowChange}
-        />
-      </div>
-
       <div
         className="gallery"
-        style={{ gridTemplateColumns: `repeat(${cardsPerRow}, 1fr)` }}
+        style={{ gridTemplateColumns: `repeat(3, 1fr)` }}
       >
         {motorcycles.map((motorcycle) => (
           <Card
