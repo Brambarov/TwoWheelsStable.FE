@@ -8,10 +8,10 @@ import {
 import { jwtDecode } from "jwt-decode";
 
 interface AuthContextType {
-  userId: string | null;
+  href: string | null;
   accessToken: string | null;
   refreshToken: string | null;
-  login: (userId: string, accessToken: string, refreshToken: string) => void;
+  login: (href: string, accessToken: string, refreshToken: string) => void;
   logout: () => void;
 }
 
@@ -24,7 +24,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [userId, setUserId] = useState<string | null>(
+  const [href, setHref] = useState<string | null>(
     localStorage.getItem("userId")
   );
   const [accessToken, setAccessToken] = useState<string | null>(
@@ -50,7 +50,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [accessToken]);
 
-  const login = (userId: string, accessToken: string) => {
+  const login = (href: string, accessToken: string) => {
     const decodedToken = jwtDecode<DecodedToken>(accessToken);
     const expirationTime = decodedToken.exp * 1000;
     const currentTime = Date.now();
@@ -59,14 +59,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    setUserId(userId);
+    setHref(href);
     setAccessToken(accessToken);
-    localStorage.setItem("userId", userId);
+    localStorage.setItem("userId", href);
     localStorage.setItem("accessToken", accessToken);
   };
 
   const logout = () => {
-    setUserId(null);
+    setHref(null);
     setAccessToken(null);
     localStorage.removeItem("userId");
     localStorage.removeItem("accessToken");
@@ -75,7 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   return (
     <AuthContext.Provider
       value={{
-        userId,
+        href: href,
         accessToken: accessToken,
         refreshToken: refreshToken,
         login,

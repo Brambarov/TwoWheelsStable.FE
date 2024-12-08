@@ -9,15 +9,15 @@ interface Props {
 
 const Navbar: React.FC<Props> = ({ onLogout }) => {
   const {
-    userId,
+    href: href,
     accessToken: accessToken,
     refreshToken: refreshToken,
   } = useAuth();
 
   useEffect(() => {
-    if (userId && accessToken && refreshToken) {
+    if (href && accessToken && refreshToken) {
     }
-  }, [userId, accessToken, refreshToken]);
+  }, [href, accessToken, refreshToken]);
 
   return (
     <nav className="navbar">
