@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import Card from "../Card/Card";
 import "./Gallery.css";
 import { getImageByResourceId } from "../../api";
+import { BASE_URL } from "../../api";
 
 interface Motorcycle {
-  id: string;
+  href: string;
   name: string;
   make: string;
   model: string;
@@ -33,7 +34,8 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
         const motorcycleWithImages = await Promise.all(
           motorcycleData.map(async (motorcycle) => {
             try {
-              const imagesResponse = await getImageByResourceId(motorcycle.id);
+              const id = motorcycle.href.split("/").pop();
+              const imagesResponse = await getImageByResourceId(id!);
               const firstImage = imagesResponse.data[0];
               return {
                 ...motorcycle,
@@ -58,8 +60,9 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
     fetchData();
   }, [fetchMotorcycles]);
 
-  const handleCardClick = (id: string) => {
-    navigate(`/motorcycles/${id}`);
+  const handleCardClick = (href: string) => {
+    const path = href.replace(BASE_URL, "");
+    navigate(path);
   };
 
   return (
@@ -73,13 +76,13 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
       >
         {motorcycles.map((motorcycle) => (
           <Card
-            key={motorcycle.id}
+            key={motorcycle.href}
             name={motorcycle.name}
             make={motorcycle.make}
             model={motorcycle.model}
             owner={motorcycle.owner}
             image={motorcycle.image}
-            onClick={() => handleCardClick(motorcycle.id)}
+            onClick={() => handleCardClick(motorcycle.href)}
           />
         ))}
       </div>

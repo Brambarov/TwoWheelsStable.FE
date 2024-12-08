@@ -1,4 +1,4 @@
-import MotorcycleDetails from "./components/Motorcycle/MotorcycleDetails/MotorcycleDetails";
+import GetMotorcycle from "./components/Motorcycle/GetMotorcycle/GetMotorcycle";
 import CreateMotorcycle from "./components/Motorcycle/CreateMotorcycle/CreateMotorcycle";
 import UpdateMotorcycle from "./components/Motorcycle/UpdateMotorcycle/UpdateMotorcycle";
 import Gallery from "./components/Gallery/Gallery";
@@ -10,7 +10,7 @@ import { useAuth } from "./context/AuthContext";
 import { getMotorcycles, getMotorcyclesByUserId } from "./api";
 
 const App = () => {
-  const { userId, logout } = useAuth();
+  const { href, logout } = useAuth();
   const navigate = useNavigate();
   const handleLogout = () => {
     logout();
@@ -30,17 +30,15 @@ const App = () => {
         <Route
           path="/stable"
           element={
-            userId && (
-              <Gallery
-                fetchMotorcycles={() => getMotorcyclesByUserId(userId)}
-              />
+            href && (
+              <Gallery fetchMotorcycles={() => getMotorcyclesByUserId(href)} />
             )
           }
         />
         <Route path="/motorcycles/new" element={<CreateMotorcycle />} />
         <Route path="/motorcycles/edit/:id" element={<UpdateMotorcycle />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/motorcycles/:id" element={<MotorcycleDetails />} />
+        <Route path="/motorcycles/:id" element={<GetMotorcycle />} />
       </Routes>
     </div>
   );
