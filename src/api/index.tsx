@@ -39,20 +39,24 @@ export const refreshToken = async (data: { refreshToken: string }) =>
   await api.post("/auth/refresh", data);
 
 // ******
+// Generic
+// ******
+export const getResource = async (href: string) =>
+  await requestByHref(href, "GET");
+
+export const updateResource = async (href: string, data: any) =>
+  await requestByHref(href, "PUT", data);
+
+export const deleteResource = async (href: string) =>
+  await requestByHref(href, "DELETE");
+
+// ******
 // Users
 // ******
 export const getUsers = async (queryParams?: any) =>
   await api.get(`/users`, { params: queryParams });
 
 export const createUser = async (data: any) => await api.post(`/users`, data);
-
-export const getUser = async (href: string) => await requestByHref(href, "GET");
-
-export const updateUser = async (href: string, data: any) =>
-  await requestByHref(href, "PUT", data);
-
-export const deleteUser = async (href: string) =>
-  await requestByHref(href, "DELETE");
 
 // ******
 // Images
@@ -77,40 +81,14 @@ export const getMotorcyclesByUserId = async (id: string) =>
 export const createMotorcycle = async (data: any) =>
   await api.post(`/motorcycles`, data);
 
-export const getMotorcycle = async (href: string) =>
-  await requestByHref(href, "GET");
-
-export const updateMotorcycle = async (href: string, data: any) =>
-  await requestByHref(href, "PUT", data);
-
-export const deleteMotorcycle = async (href: string) =>
-  await requestByHref(href, "DELETE");
-
 // ******
 // Comments
 // ******
 export const createComment = async (motorcycleId: string, data: any) =>
   await api.post(`/motorcycles/${motorcycleId}/comments`, data);
 
-export const getComment = async (href: string) =>
-  await requestByHref(href, "GET");
-
-export const updateComment = async (href: string, data: any) =>
-  await requestByHref(href, "PUT", data);
-
-export const deleteComment = async (href: string) =>
-  await requestByHref(href, "DELETE");
-
 // ******
 // Jobs
 // ******
 export const createJob = async (motorcycleId: string, data: any) =>
   await api.post(`/motorcycles/${motorcycleId}/jobs`, data);
-
-export const getJob = async (href: string) => await requestByHref(href, "GET");
-
-export const updateJob = async (href: string, data: any) =>
-  await requestByHref(href, "PUT", data);
-
-export const deleteJob = async (href: string) =>
-  await requestByHref(href, "DELETE");
