@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { getMotorcycle, updateMotorcycle } from "../../../api";
+import { getResource, updateResource } from "../../../api";
 
 const UpdateMotorcycle: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -19,7 +19,7 @@ const UpdateMotorcycle: React.FC = () => {
   useEffect(() => {
     const fetchMotorcycle = async () => {
       try {
-        const response = await getMotorcycle(id!);
+        const response = await getResource(id!);
         setMotorcycle(response.data);
       } catch (err) {
         setError("Failed to fetch motorcycle!");
@@ -38,7 +38,7 @@ const UpdateMotorcycle: React.FC = () => {
     e.preventDefault();
 
     try {
-      await updateMotorcycle(id!, motorcycle);
+      await updateResource(id!, motorcycle);
       navigate(`/motorcycles/${id}`);
     } catch (err) {
       setError("Failed to update motorcycle!");

@@ -1,26 +1,23 @@
 import { useEffect, useState } from "react";
 import {
-  getMotorcycle,
   createComment,
-  updateComment,
-  deleteComment,
   createJob,
-  updateJob,
-  deleteJob,
+  deleteResource,
   getImageByResourceId,
-  deleteMotorcycle,
+  getResource,
+  updateResource,
 } from "../../../api";
 import { useNavigate, useParams } from "react-router-dom";
 import { toString } from "../../../utils/String";
 import "../../Comment/Comment.css";
-import "./MotorcycleDetails.css";
+import "./GetMotorcycle.css";
 import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/SpecsTable/SpecsTable";
 import Schedule from "../../Schedule/Schedule";
 import Section from "../../Section/Section";
 
-const MotorcycleDetails: React.FC = () => {
+const GetMotorcycle: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
@@ -33,7 +30,7 @@ const MotorcycleDetails: React.FC = () => {
   useEffect(() => {
     const fetchMotorcycle = async (id: string) => {
       try {
-        const response = await getMotorcycle(id);
+        const response = await getResource(id);
         setMotorcycle(response.data);
 
         const images = await getImageByResourceId(id);
@@ -55,7 +52,7 @@ const MotorcycleDetails: React.FC = () => {
 
   const handleDelete = async () => {
     try {
-      await deleteMotorcycle(id!);
+      await deleteResource(id!);
       navigate("/stable");
     } catch (err) {
       setError("Failed to delete motorcycle!");
@@ -108,7 +105,7 @@ const MotorcycleDetails: React.FC = () => {
 
   const submitEditComment = async (id: string, updatedComment: any) => {
     try {
-      const response = await updateComment(id, updatedComment);
+      const response = await updateResource(id, updatedComment);
       const comments = motorcycle.comments.map((comment: any) =>
         comment.id === id ? response.data : comment
       );
@@ -120,7 +117,7 @@ const MotorcycleDetails: React.FC = () => {
 
   const submitEditJob = async (id: string, updatedJob: any) => {
     try {
-      const response = await updateJob(id, updatedJob);
+      const response = await updateResource(id, updatedJob);
       const jobs = motorcycle.jobs.map((job: any) =>
         job.id === id ? response.data : job
       );
@@ -132,7 +129,7 @@ const MotorcycleDetails: React.FC = () => {
 
   const handleDeleteComment = async (id: string) => {
     try {
-      await deleteComment(id);
+      await deleteResource(id);
       const comments = motorcycle.comments.filter(
         (comment: any) => comment.id !== id
       );
@@ -144,7 +141,7 @@ const MotorcycleDetails: React.FC = () => {
 
   const handleDeleteJob = async (id: string) => {
     try {
-      await deleteJob(id);
+      await deleteResource(id);
       const jobs = motorcycle.jobs.filter((job: any) => job.id !== id);
       setMotorcycle({ ...motorcycle, jobs: jobs });
     } catch (err: any) {
@@ -175,7 +172,7 @@ const MotorcycleDetails: React.FC = () => {
         )}
       </div>
 
-      <SpecsTable specs={motorcycle.specs} />
+      {/* <SpecsTable specs={motorcycle.specs} />
 
       <Schedule
         jobs={motorcycle.jobs}
@@ -195,9 +192,9 @@ const MotorcycleDetails: React.FC = () => {
         submitEditComment={(id, comment) => submitEditComment(id, comment)}
         editComment={editComment}
         setEditComment={setEditComment}
-      />
+      /> */}
     </div>
   );
 };
 
-export default MotorcycleDetails;
+export default GetMotorcycle;
