@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  BASE_URL,
   createComment,
   createJob,
   deleteResource,
@@ -16,9 +17,12 @@ import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/SpecsTable/SpecsTable";
 import Schedule from "../../Schedule/Schedule";
 import Section from "../../Section/Section";
+import { useLocation } from "react-router-dom";
 
 const GetMotorcycle: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const href = `${location.pathname}`;
+  const id = href.split("/").pop();
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
   const [editComment, setEditComment] = useState<any | null>(null);
@@ -28,12 +32,12 @@ const GetMotorcycle: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMotorcycle = async (id: string) => {
+    const fetchMotorcycle = async () => {
       try {
-        const response = await getResource(id);
+        const response = await getResource(href);
         setMotorcycle(response.data);
 
-        const images = await getImageByResourceId(id);
+        const images = await getImageByResourceId(id!);
         setImages(
           images.data.map(
             (img: any) => `data:${img.mimeType};base64,${img.data}`
@@ -44,10 +48,7 @@ const GetMotorcycle: React.FC = () => {
       }
     };
 
-    const stringId = toString(id);
-    if (stringId) {
-      fetchMotorcycle(stringId);
-    }
+    fetchMotorcycle();
   }, [id]);
 
   const handleDelete = async () => {
@@ -61,7 +62,7 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleCreateComment = async (comment: any) => {
+  /* const handleCreateComment = async (comment: any) => {
     try {
       const stringId = toString(id);
       if (stringId) {
@@ -74,7 +75,7 @@ const GetMotorcycle: React.FC = () => {
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to post comment!");
     }
-  };
+  }; */
 
   const handleCreateJob = async (job: any) => {
     try {
@@ -103,7 +104,7 @@ const GetMotorcycle: React.FC = () => {
     setEditJob(job);
   };
 
-  const submitEditComment = async (id: string, updatedComment: any) => {
+  /* const submitEditComment = async (id: string, updatedComment: any) => {
     try {
       const response = await updateResource(id, updatedComment);
       const comments = motorcycle.comments.map((comment: any) =>
@@ -113,7 +114,7 @@ const GetMotorcycle: React.FC = () => {
     } catch (err: any) {
       setError("Failed to edit comment!");
     }
-  };
+  }; */
 
   const submitEditJob = async (id: string, updatedJob: any) => {
     try {
@@ -127,7 +128,7 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleDeleteComment = async (id: string) => {
+  /* const handleDeleteComment = async (id: string) => {
     try {
       await deleteResource(id);
       const comments = motorcycle.comments.filter(
@@ -137,7 +138,7 @@ const GetMotorcycle: React.FC = () => {
     } catch (err: any) {
       setError("Failed to delete comment!");
     }
-  };
+  }; */
 
   const handleDeleteJob = async (id: string) => {
     try {
@@ -172,7 +173,7 @@ const GetMotorcycle: React.FC = () => {
         )}
       </div>
 
-      {/* <SpecsTable specs={motorcycle.specs} />
+      {/* <SpecsTable specs={motorcycle.specs} /> */}
 
       <Schedule
         jobs={motorcycle.jobs}
@@ -184,7 +185,7 @@ const GetMotorcycle: React.FC = () => {
         setEditJob={setEditJob}
       />
 
-      <Section
+      {/* <Section
         comments={motorcycle.comments}
         onCreate={(comment) => handleCreateComment(comment)}
         onEdit={(id) => handleEditComment(id)}
