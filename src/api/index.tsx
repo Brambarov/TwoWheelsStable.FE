@@ -13,7 +13,7 @@ api.interceptors.request.use((config) => {
 });
 
 const requestByHref = async (href: string, method: string, data?: any) => {
-  return await axios({
+  return await api({
     url: href,
     method,
     data,
