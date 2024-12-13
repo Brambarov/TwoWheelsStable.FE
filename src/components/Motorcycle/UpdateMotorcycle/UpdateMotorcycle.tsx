@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getResource, updateResource } from "../../../api";
 
 const UpdateMotorcycle: React.FC = () => {
-  const { id } = useParams<{ id: string }>();
+  const location = useLocation();
+  const { href } = location.state || {};
+  const id = href.split("/").pop();
   const navigate = useNavigate();
 
   const [motorcycle, setMotorcycle] = useState({
@@ -17,17 +19,17 @@ const UpdateMotorcycle: React.FC = () => {
   const [error, setError] = useState("");
 
   useEffect(() => {
-    const fetchMotorcycle = async () => {
+    const getMotorcycle = async () => {
       try {
-        const response = await getResource(id!);
+        const response = await getResource(href);
         setMotorcycle(response.data);
       } catch (err) {
         setError("Failed to fetch motorcycle!");
       }
     };
 
-    fetchMotorcycle();
-  }, [id]);
+    getMotorcycle();
+  }, [href]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -38,7 +40,7 @@ const UpdateMotorcycle: React.FC = () => {
     e.preventDefault();
 
     try {
-      await updateResource(id!, motorcycle);
+      await updateResource(href, motorcycle);
       navigate(`/motorcycles/${id}`);
     } catch (err) {
       setError("Failed to update motorcycle!");

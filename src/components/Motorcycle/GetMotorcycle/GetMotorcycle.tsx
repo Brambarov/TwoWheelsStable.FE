@@ -158,7 +158,11 @@ const GetMotorcycle: React.FC = () => {
       <div>
         <MotorcycleHeader motorcycle={motorcycle} images={images} />
 
-        <button onClick={() => navigate(`/motorcycles/edit/${motorcycle.id}`)}>
+        <button
+          onClick={() =>
+            navigate(`/motorcycles/edit/${id}`, { state: { href } })
+          }
+        >
           Update
         </button>
 
