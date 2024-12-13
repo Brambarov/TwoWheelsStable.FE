@@ -21,23 +21,23 @@ import { useLocation } from "react-router-dom";
 
 const GetMotorcycle: React.FC = () => {
   const location = useLocation();
-  const href = `${location.pathname}`;
-  const id = href.split("/").pop();
+  const motorcycleHref = `${location.pathname}`;
+  const motorcycleId = motorcycleHref.split("/").pop();
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
-  const [editComment, setEditComment] = useState<any | null>(null);
-  const [editJob, setEditJob] = useState<any | null>(null);
-  const [error, setError] = useState("");
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [updateJob, setUpdateJob] = useState<any | null>(null);
+  const [updateComment, setUpdateComment] = useState<any | null>(null);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
     const getMotorcycle = async () => {
       try {
-        const response = await getResource(href);
+        const response = await getResource(motorcycleHref);
         setMotorcycle(response.data);
 
-        const images = await getImageByResourceId(id!);
+        const images = await getImageByResourceId(motorcycleId!);
         setImages(
           images.data.map(
             (img: any) => `data:${img.mimeType};base64,${img.data}`
@@ -49,11 +49,11 @@ const GetMotorcycle: React.FC = () => {
     };
 
     getMotorcycle();
-  }, [id]);
+  }, [motorcycleId]);
 
   const handleDelete = async () => {
     try {
-      await deleteResource(href);
+      await deleteResource(motorcycleHref);
       navigate("/stable");
     } catch (err) {
       setError("Failed to delete motorcycle!");
@@ -62,24 +62,9 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleCreateComment = async (comment: any) => {
-    try {
-      const stringId = toString(id);
-      if (stringId) {
-        const response = await createComment(stringId, comment);
-        setMotorcycle({
-          ...motorcycle,
-          comments: [...motorcycle.comments, response.data],
-        });
-      }
-    } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to post comment!");
-    }
-  };
-
   const handleCreateJob = async (job: any) => {
     try {
-      const stringId = toString(id);
+      const stringId = toString(motorcycleId);
       if (stringId) {
         const response = await createJob(stringId, job);
         setMotorcycle({
@@ -92,16 +77,53 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
+  const handleUpdateJob = (href: any) => {
+    const job = motorcycle.jobs.find((job: any) => job.href === href);
+    setUpdateJob(job);
+  };
+
+  const submitUpdateJob = async (href: string, updatedJob: any) => {
+    try {
+      const response = await updateResource(href, updatedJob);
+      const jobs = motorcycle.jobs.map((job: any) =>
+        job.href === href ? response.data : job
+      );
+      setMotorcycle({ ...motorcycle, jobs: jobs });
+    } catch (err: any) {
+      setError("Failed to edit job!");
+    }
+  };
+
+  const handleDeleteJob = async (id: string) => {
+    try {
+      await deleteResource(id);
+      const jobs = motorcycle.jobs.filter((job: any) => job.id !== id);
+      setMotorcycle({ ...motorcycle, jobs: jobs });
+    } catch (err: any) {
+      setError("Failed to delete job!");
+    }
+  };
+
+  const handleCreateComment = async (comment: any) => {
+    try {
+      const stringId = toString(motorcycleId);
+      if (stringId) {
+        const response = await createComment(stringId, comment);
+        setMotorcycle({
+          ...motorcycle,
+          comments: [...motorcycle.comments, response.data],
+        });
+      }
+    } catch (err: any) {
+      setError(err.response?.data?.message || "Failed to post comment!");
+    }
+  };
+
   const handleEditComment = (id: string) => {
     const comment = motorcycle.comments.find(
       (comment: any) => comment.id === id
     );
-    setEditComment(comment);
-  };
-
-  const handleEditJob = (id: any) => {
-    const job = motorcycle.jobs.find((job: any) => job.id === id);
-    setEditJob(job);
+    setUpdateComment(comment);
   };
 
   const submitEditComment = async (id: string, updatedComment: any) => {
@@ -113,18 +135,6 @@ const GetMotorcycle: React.FC = () => {
       setMotorcycle({ ...motorcycle, comments: comments });
     } catch (err: any) {
       setError("Failed to edit comment!");
-    }
-  };
-
-  const submitEditJob = async (id: string, updatedJob: any) => {
-    try {
-      const response = await updateResource(id, updatedJob);
-      const jobs = motorcycle.jobs.map((job: any) =>
-        job.id === id ? response.data : job
-      );
-      setMotorcycle({ ...motorcycle, jobs: jobs });
-    } catch (err: any) {
-      setError("Failed to edit job!");
     }
   };
 
@@ -140,16 +150,6 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleDeleteJob = async (id: string) => {
-    try {
-      await deleteResource(id);
-      const jobs = motorcycle.jobs.filter((job: any) => job.id !== id);
-      setMotorcycle({ ...motorcycle, jobs: jobs });
-    } catch (err: any) {
-      setError("Failed to delete job!");
-    }
-  };
-
   if (error) return <p>{error}</p>;
   if (!motorcycle) return <p>Loading...</p>;
 
@@ -160,7 +160,9 @@ const GetMotorcycle: React.FC = () => {
 
         <button
           onClick={() =>
-            navigate(`/motorcycles/edit/${id}`, { state: { href } })
+            navigate(`/motorcycles/edit/${motorcycleId}`, {
+              state: { href: motorcycleHref },
+            })
           }
         >
           Update
@@ -182,21 +184,21 @@ const GetMotorcycle: React.FC = () => {
       <Schedule
         jobs={motorcycle.jobs}
         onCreate={(job) => handleCreateJob(job)}
-        onEdit={(id) => handleEditJob(id)}
-        onDelete={(id) => handleDeleteJob(id)}
-        submitEditJob={(id, job) => submitEditJob(id, job)}
-        editJob={editJob}
-        setEditJob={setEditJob}
+        onUpdate={(href) => handleUpdateJob(href)}
+        onDelete={(href) => handleDeleteJob(href)}
+        submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
+        updateJob={updateJob}
+        setUpdateJob={setUpdateJob}
       />
 
       <Section
         comments={motorcycle.comments}
         onCreate={(comment) => handleCreateComment(comment)}
-        onEdit={(id) => handleEditComment(id)}
+        onUpdate={(id) => handleEditComment(id)}
         onDelete={(id) => handleDeleteComment(id)}
-        submitEditComment={(id, comment) => submitEditComment(id, comment)}
-        editComment={editComment}
-        setEditComment={setEditComment}
+        submitUpdateComment={(id, comment) => submitEditComment(id, comment)}
+        updateComment={updateComment}
+        setUpdateComment={setUpdateComment}
       />
     </div>
   );
