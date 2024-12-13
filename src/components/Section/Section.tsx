@@ -1,3 +1,4 @@
+import { useAuth } from "../../context/AuthContext";
 import "./Section.css";
 import React, { useEffect, useState } from "react";
 
@@ -20,6 +21,7 @@ const Section: React.FC<{
 }) => {
   const [comment, setComment] = useState({ title: "", content: "" });
   const [isUpdating, setIsUpdating] = useState(false);
+  const { userHref: href } = useAuth();
 
   useEffect(() => {
     if (updateComment) {
@@ -71,10 +73,17 @@ const Section: React.FC<{
               <p className="comment-footer">
                 by {comment.userName} on {comment.createdOn}
               </p>
-              <div className="comment-action">
-                <button onClick={() => onEdit(comment.href)}>Edit</button>
-                <button onClick={() => onDelete(comment.href)}>Delete</button>
-              </div>
+
+              {comment.userHref === href && (
+                <>
+                  <div className="comment-action">
+                    <button onClick={() => onEdit(comment.href)}>Edit</button>
+                    <button onClick={() => onDelete(comment.href)}>
+                      Delete
+                    </button>
+                  </div>
+                </>
+              )}
             </li>
           ))}
         </ul>

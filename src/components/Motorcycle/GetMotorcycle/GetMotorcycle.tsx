@@ -8,7 +8,7 @@ import {
   updateResource,
 } from "../../../api";
 import { useNavigate } from "react-router-dom";
-import { toString } from "../../../utils/String";
+import { extractIdFromHref, toString } from "../../../utils/String";
 import "../../Comment/Comment.css";
 import "./GetMotorcycle.css";
 import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
@@ -23,7 +23,7 @@ const GetMotorcycle: React.FC = () => {
   const location = useLocation();
   const { userHref: href } = useAuth();
   const motorcycleHref = `${location.pathname}`;
-  const motorcycleId = motorcycleHref.split("/").pop();
+  const motorcycleId = extractIdFromHref(motorcycleHref);
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -184,20 +184,16 @@ const GetMotorcycle: React.FC = () => {
       </div>
 
       <SpecsTable specs={motorcycle.specs} />
-
-      {motorcycle.userHref === href && (
-        <>
-          <Schedule
-            jobs={motorcycle.jobs}
-            onCreate={(job) => handleCreateJob(job)}
-            onUpdate={(href) => handleUpdateJob(href)}
-            onDelete={(href) => handleDeleteJob(href)}
-            submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
-            updateJob={updateJob}
-            setUpdateJob={setUpdateJob}
-          />
-        </>
-      )}
+      <Schedule
+        motorcycleUserHref={motorcycle.userHref}
+        jobs={motorcycle.jobs}
+        onCreate={(job) => handleCreateJob(job)}
+        onUpdate={(href) => handleUpdateJob(href)}
+        onDelete={(href) => handleDeleteJob(href)}
+        submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
+        updateJob={updateJob}
+        setUpdateJob={setUpdateJob}
+      />
 
       {href && (
         <>

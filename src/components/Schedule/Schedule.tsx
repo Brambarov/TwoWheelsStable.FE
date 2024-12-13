@@ -1,7 +1,9 @@
+import { useAuth } from "../../context/AuthContext";
 import "./Schedule.css";
 import { useEffect, useState } from "react";
 
 const Schedule: React.FC<{
+  motorcycleUserHref: string;
   jobs: any[];
   onCreate: (job: any) => void;
   onUpdate: (href: string) => void;
@@ -10,6 +12,7 @@ const Schedule: React.FC<{
   updateJob: any;
   setUpdateJob: any;
 }> = ({
+  motorcycleUserHref,
   jobs,
   onCreate,
   onUpdate: onEdit,
@@ -18,6 +21,7 @@ const Schedule: React.FC<{
   updateJob: updateJob,
   setUpdateJob: setUpdateJob,
 }) => {
+  const { userHref: href } = useAuth();
   const [job, setJob] = useState({
     title: "",
     description: "",
@@ -86,70 +90,78 @@ const Schedule: React.FC<{
               <p>Cost: {job.cost}</p>
               <p>Due Date: {job.dueDate}</p>
               <p>Due Mileage: {job.dueMileage}</p>
-              <button onClick={() => onEdit(job.href)}>Edit</button>
-              <button onClick={() => onDelete(job.href)}>Delete</button>
+              {motorcycleUserHref === href && (
+                <>
+                  <button onClick={() => onEdit(job.href)}>Edit</button>
+                  <button onClick={() => onDelete(job.href)}>Delete</button>
+                </>
+              )}
             </li>
           ))}
         </ul>
       </div>
 
-      <div className="schedule-form">
-        <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
-        <form onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}>
-          <div>
-            <input
-              type="text"
-              name="title"
-              placeholder="Job Title"
-              value={job.title}
-              onChange={handleJobInputChange}
-              required
-            />
+      {motorcycleUserHref === href && (
+        <>
+          <div className="schedule-form">
+            <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
+            <form onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}>
+              <div>
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Job Title"
+                  value={job.title}
+                  onChange={handleJobInputChange}
+                  required
+                />
+              </div>
+              <div>
+                <textarea
+                  name="description"
+                  placeholder="Job Description"
+                  value={job.description}
+                  onChange={handleJobInputChange}
+                  required
+                />
+              </div>
+              <div>
+                Cost
+                <input
+                  type="number"
+                  name="cost"
+                  placeholder="Cost"
+                  value={job.cost}
+                  onChange={handleJobInputChange}
+                  required
+                />
+              </div>
+              <div>
+                Due Date
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={job.dueDate}
+                  onChange={handleJobInputChange}
+                />
+              </div>
+              <div>
+                Due Mileage
+                <input
+                  type="number"
+                  name="dueMileage"
+                  placeholder="Due Mileage"
+                  value={job.dueMileage}
+                  onChange={handleJobInputChange}
+                />
+              </div>
+              <button type="submit">
+                {isUpdating ? "Save Changes" : "Create Job"}
+              </button>
+            </form>
           </div>
-          <div>
-            <textarea
-              name="description"
-              placeholder="Job Description"
-              value={job.description}
-              onChange={handleJobInputChange}
-              required
-            />
-          </div>
-          <div>
-            Cost
-            <input
-              type="number"
-              name="cost"
-              placeholder="Cost"
-              value={job.cost}
-              onChange={handleJobInputChange}
-              required
-            />
-          </div>
-          <div>
-            Due Date
-            <input
-              type="date"
-              name="dueDate"
-              value={job.dueDate}
-              onChange={handleJobInputChange}
-            />
-          </div>
-          <div>
-            Due Mileage
-            <input
-              type="number"
-              name="dueMileage"
-              placeholder="Due Mileage"
-              value={job.dueMileage}
-              onChange={handleJobInputChange}
-            />
-          </div>
-          <button type="submit">
-            {isUpdating ? "Save Changes" : "Create Job"}
-          </button>
-        </form>
-      </div>
+        </>
+      )}
     </div>
   );
 };
