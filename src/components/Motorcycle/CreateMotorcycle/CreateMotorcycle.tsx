@@ -43,7 +43,7 @@ const CreateMotorcycle: React.FC = () => {
 
     try {
       const response = await createMotorcycle(motorcycle);
-      const motorcycleId = response.data.id;
+      const motorcycleId = response.data.href.split("/").pop();
 
       if (images.length > 0) {
         const formData = new FormData();
@@ -52,7 +52,7 @@ const CreateMotorcycle: React.FC = () => {
         await batchCreate(motorcycleId, formData);
       }
 
-      navigate(`/motorcycles/${response.data.id}`);
+      navigate(`/motorcycles/${motorcycleId}`);
     } catch (err) {
       setError("Failed to create motorcycle!");
     }
