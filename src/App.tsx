@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Navbar from "./components/Navbar/Navbar";
 import { useAuth } from "./context/AuthContext";
 import { getMotorcycles, getMotorcyclesByUserId } from "./api";
+import { extractIdFromHref } from "./utils/String";
 
 const App = () => {
   const { userHref: href, logout } = useAuth();
@@ -31,7 +32,11 @@ const App = () => {
           path="/stable"
           element={
             href && (
-              <Gallery fetchMotorcycles={() => getMotorcyclesByUserId(href)} />
+              <Gallery
+                fetchMotorcycles={() =>
+                  getMotorcyclesByUserId(extractIdFromHref(href))
+                }
+              />
             )
           }
         />

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getResource, updateResource } from "../../../api";
+import { extractIdFromHref } from "../../../utils/String";
 
 const UpdateMotorcycle: React.FC = () => {
   const location = useLocation();
   const { href } = location.state || {};
-  const id = href.split("/").pop();
+  const id = extractIdFromHref(href);
   const navigate = useNavigate();
 
   const [motorcycle, setMotorcycle] = useState({

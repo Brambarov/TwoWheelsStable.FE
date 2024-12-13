@@ -3,7 +3,7 @@ export const toString = (value: unknown): string => {
   else return String(value);
 };
 
-export const extractIdfromHref = (href: string): string => {
+export const extractIdFromHref = (href: string): string => {
   const parts = href.split("/");
   return parts[parts.length - 1];
 };

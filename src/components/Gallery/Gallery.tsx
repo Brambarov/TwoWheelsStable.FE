@@ -4,13 +4,14 @@ import Card from "../Card/Card";
 import "./Gallery.css";
 import { getImageByResourceId } from "../../api";
 import { BASE_URL } from "../../api";
+import { extractIdFromHref } from "../../utils/String";
 
 interface Motorcycle {
   href: string;
   name: string;
   make: string;
   model: string;
-  owner: string;
+  userName: string;
   image?: string | null;
 }
 
@@ -34,7 +35,7 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles: getMotorcycles }) => {
         const motorcycleWithImages = await Promise.all(
           motorcycleData.map(async (motorcycle) => {
             try {
-              const id = motorcycle.href.split("/").pop();
+              const id = extractIdFromHref(motorcycle.href);
               const imagesResponse = await getImageByResourceId(id!);
               const firstImage = imagesResponse.data[0];
               return {
@@ -80,7 +81,7 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles: getMotorcycles }) => {
             name={motorcycle.name}
             make={motorcycle.make}
             model={motorcycle.model}
-            owner={motorcycle.owner}
+            owner={motorcycle.userName}
             image={motorcycle.image}
             onClick={() => handleCardClick(motorcycle.href)}
           />

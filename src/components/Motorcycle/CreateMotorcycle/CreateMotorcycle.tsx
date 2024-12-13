@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { batchCreate, createMotorcycle } from "../../../api";
 import { useNavigate } from "react-router-dom";
+import { extractIdFromHref } from "../../../utils/String";
 
 const CreateMotorcycle: React.FC = () => {
   const [motorcycle, setMotorcycle] = useState({
@@ -43,7 +44,7 @@ const CreateMotorcycle: React.FC = () => {
 
     try {
       const response = await createMotorcycle(motorcycle);
-      const motorcycleId = response.data.href.split("/").pop();
+      const motorcycleId = extractIdFromHref(response.data.href);
 
       if (images.length > 0) {
         const formData = new FormData();
