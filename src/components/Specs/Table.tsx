@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-const SpecsTable: React.FC<{ specs: any }> = ({ specs }) => {
+interface Specs {
+  specs: Record<string, string>;
+}
+
+const SpecsTable: React.FC<Specs> = ({ specs }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleTable = () => setIsExpanded(!isExpanded);
 
@@ -16,11 +20,11 @@ const SpecsTable: React.FC<{ specs: any }> = ({ specs }) => {
         </thead>
         <tbody>
           {Object.entries(specs)
-            .slice(0, isExpanded ? specs.length : 5)
+            .slice(0, isExpanded ? Object.entries(specs).length : 5)
             .map(([key, value]) => (
               <tr key={key}>
                 <td>{key}</td>
-                <td>{"TEST"}</td>
+                <td>{value}</td>
               </tr>
             ))}
         </tbody>
