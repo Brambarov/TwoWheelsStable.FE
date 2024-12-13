@@ -94,10 +94,10 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleDeleteJob = async (id: string) => {
+  const handleDeleteJob = async (href: string) => {
     try {
-      await deleteResource(id);
-      const jobs = motorcycle.jobs.filter((job: any) => job.id !== id);
+      await deleteResource(href);
+      const jobs = motorcycle.jobs.filter((job: any) => job.href !== href);
       setMotorcycle({ ...motorcycle, jobs: jobs });
     } catch (err: any) {
       setError("Failed to delete job!");
@@ -119,18 +119,18 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleEditComment = (id: string) => {
+  const handleUpdateComment = (href: string) => {
     const comment = motorcycle.comments.find(
-      (comment: any) => comment.id === id
+      (comment: any) => comment.href === href
     );
     setUpdateComment(comment);
   };
 
-  const submitEditComment = async (id: string, updatedComment: any) => {
+  const submitUpdateComment = async (href: string, updatedComment: any) => {
     try {
-      const response = await updateResource(id, updatedComment);
+      const response = await updateResource(href, updatedComment);
       const comments = motorcycle.comments.map((comment: any) =>
-        comment.id === id ? response.data : comment
+        comment.href === href ? response.data : comment
       );
       setMotorcycle({ ...motorcycle, comments: comments });
     } catch (err: any) {
@@ -138,11 +138,11 @@ const GetMotorcycle: React.FC = () => {
     }
   };
 
-  const handleDeleteComment = async (id: string) => {
+  const handleDeleteComment = async (href: string) => {
     try {
-      await deleteResource(id);
+      await deleteResource(href);
       const comments = motorcycle.comments.filter(
-        (comment: any) => comment.id !== id
+        (comment: any) => comment.href !== href
       );
       setMotorcycle({ ...motorcycle, comments: comments });
     } catch (err: any) {
@@ -194,9 +194,11 @@ const GetMotorcycle: React.FC = () => {
       <Section
         comments={motorcycle.comments}
         onCreate={(comment) => handleCreateComment(comment)}
-        onUpdate={(id) => handleEditComment(id)}
-        onDelete={(id) => handleDeleteComment(id)}
-        submitUpdateComment={(id, comment) => submitEditComment(id, comment)}
+        onUpdate={(href) => handleUpdateComment(href)}
+        onDelete={(href) => handleDeleteComment(href)}
+        submitUpdateComment={(href, comment) =>
+          submitUpdateComment(href, comment)
+        }
         updateComment={updateComment}
         setUpdateComment={setUpdateComment}
       />
