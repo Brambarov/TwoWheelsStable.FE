@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import {
-  BASE_URL,
   createComment,
   createJob,
   deleteResource,
@@ -8,7 +7,7 @@ import {
   getResource,
   updateResource,
 } from "../../../api";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toString } from "../../../utils/String";
 import "../../Comment/Comment.css";
 import "./GetMotorcycle.css";
@@ -17,10 +16,12 @@ import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/Table";
 import Schedule from "../../Schedule/Schedule";
 import Section from "../../Section/Section";
+import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
 
 const GetMotorcycle: React.FC = () => {
   const location = useLocation();
+  const { userHref: href } = useAuth();
   const motorcycleHref = `${location.pathname}`;
   const motorcycleId = motorcycleHref.split("/").pop();
   const [motorcycle, setMotorcycle] = useState<any>(null);
@@ -158,17 +159,20 @@ const GetMotorcycle: React.FC = () => {
       <div>
         <MotorcycleHeader motorcycle={motorcycle} images={images} />
 
-        <button
-          onClick={() =>
-            navigate(`/motorcycles/edit/${motorcycleId}`, {
-              state: { href: motorcycleHref },
-            })
-          }
-        >
-          Update
-        </button>
-
-        <button onClick={() => setShowConfirmation(true)}>Delete</button>
+        {motorcycle.userHref === href && (
+          <>
+            <button
+              onClick={() =>
+                navigate(`/motorcycles/edit/${motorcycleId}`, {
+                  state: { href: motorcycleHref },
+                })
+              }
+            >
+              Update
+            </button>
+            <button onClick={() => setShowConfirmation(true)}>Delete</button>
+          </>
+        )}
 
         {showConfirmation && (
           <ConfirmModal
@@ -181,27 +185,35 @@ const GetMotorcycle: React.FC = () => {
 
       <SpecsTable specs={motorcycle.specs} />
 
-      <Schedule
-        jobs={motorcycle.jobs}
-        onCreate={(job) => handleCreateJob(job)}
-        onUpdate={(href) => handleUpdateJob(href)}
-        onDelete={(href) => handleDeleteJob(href)}
-        submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
-        updateJob={updateJob}
-        setUpdateJob={setUpdateJob}
-      />
+      {motorcycle.userHref === href && (
+        <>
+          <Schedule
+            jobs={motorcycle.jobs}
+            onCreate={(job) => handleCreateJob(job)}
+            onUpdate={(href) => handleUpdateJob(href)}
+            onDelete={(href) => handleDeleteJob(href)}
+            submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
+            updateJob={updateJob}
+            setUpdateJob={setUpdateJob}
+          />
+        </>
+      )}
 
-      <Section
-        comments={motorcycle.comments}
-        onCreate={(comment) => handleCreateComment(comment)}
-        onUpdate={(href) => handleUpdateComment(href)}
-        onDelete={(href) => handleDeleteComment(href)}
-        submitUpdateComment={(href, comment) =>
-          submitUpdateComment(href, comment)
-        }
-        updateComment={updateComment}
-        setUpdateComment={setUpdateComment}
-      />
+      {href && (
+        <>
+          <Section
+            comments={motorcycle.comments}
+            onCreate={(comment) => handleCreateComment(comment)}
+            onUpdate={(href) => handleUpdateComment(href)}
+            onDelete={(href) => handleDeleteComment(href)}
+            submitUpdateComment={(href, comment) =>
+              submitUpdateComment(href, comment)
+            }
+            updateComment={updateComment}
+            setUpdateComment={setUpdateComment}
+          />
+        </>
+      )}
     </div>
   );
 };
