@@ -9,7 +9,7 @@ interface Props {
 
 const Navbar: React.FC<Props> = ({ onLogout }) => {
   const {
-    href: href,
+    userHref: href,
     accessToken: accessToken,
     refreshToken: refreshToken,
   } = useAuth();
