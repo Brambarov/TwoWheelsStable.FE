@@ -6,12 +6,13 @@ import {
   useState,
 } from "react";
 import { jwtDecode } from "jwt-decode";
+import { refreshToken as apiRefreshToken } from "../api";
 
 interface AuthContextType {
-  href: string | null;
+  userHref: string | null;
   accessToken: string | null;
   refreshToken: string | null;
-  login: (href: string, accessToken: string, refreshToken: string) => void;
+  login: (userHref: string, accessToken: string, refreshToken: string) => void;
   logout: () => void;
 }
 
@@ -24,8 +25,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [href, setHref] = useState<string | null>(
-    localStorage.getItem("userId")
+  const [userHref, setUserHref] = useState<string | null>(
+    localStorage.getItem("userHref")
   );
   const [accessToken, setAccessToken] = useState<string | null>(
     localStorage.getItem("accessToken")
@@ -34,6 +35,32 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     localStorage.getItem("refreshToken")
   );
 
+  const refreshAccessToken = async () => {
+    if (!refreshToken) {
+      logout();
+      return;
+    }
+
+    try {
+      const response = await apiRefreshToken({ refreshToken });
+      const newAccessToken = response.data.accessToken;
+
+      const decodedToken = jwtDecode<DecodedToken>(newAccessToken);
+      const expirationTime = decodedToken.exp * 1000;
+      const timeUntilExpiration = expirationTime - Date.now();
+
+      setAccessToken(newAccessToken);
+      localStorage.setItem("accessToken", newAccessToken);
+
+      setTimeout(() => {
+        refreshAccessToken();
+      }, timeUntilExpiration - 60000);
+    } catch (err) {
+      console.error("Failed to refresh token!", err);
+      logout();
+    }
+  };
+
   useEffect(() => {
     if (accessToken) {
       const decodedToken = jwtDecode<DecodedToken>(accessToken);
@@ -41,16 +68,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       const timeUntilExpiration = expirationTime - Date.now();
 
       if (timeUntilExpiration <= 0) {
-        logout();
+        refreshAccessToken();
       } else {
         setTimeout(() => {
-          logout();
-        }, timeUntilExpiration);
+          refreshAccessToken();
+        }, timeUntilExpiration - 60000);
       }
     }
   }, [accessToken]);
 
-  const login = (href: string, accessToken: string) => {
+  const login = (
+    userHref: string,
+    accessToken: string,
+    refreshToken: string
+  ) => {
     const decodedToken = jwtDecode<DecodedToken>(accessToken);
     const expirationTime = decodedToken.exp * 1000;
     const currentTime = Date.now();
@@ -59,23 +90,27 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
       return;
     }
 
-    setHref(href);
+    setUserHref(userHref);
     setAccessToken(accessToken);
-    localStorage.setItem("userId", href);
+    setRefreshToken(refreshToken);
+    localStorage.setItem("userHref", userHref);
     localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("refreshToken", refreshToken);
   };
 
   const logout = () => {
-    setHref(null);
+    setUserHref(null);
     setAccessToken(null);
-    localStorage.removeItem("userId");
+    setRefreshToken(null);
+    localStorage.removeItem("userHref");
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
   };
 
   return (
     <AuthContext.Provider
       value={{
-        href: href,
+        userHref: userHref,
         accessToken: accessToken,
         refreshToken: refreshToken,
         login,

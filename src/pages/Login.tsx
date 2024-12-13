@@ -18,14 +18,14 @@ const Login: React.FC<Props> = () => {
     try {
       const response = await loginUser({ userName, password });
 
-      const userId = response.data.id;
+      const userHref = response.data.href;
       const accessToken = response.data.accessToken;
       const refreshToken = response.data.refreshToken;
-      localStorage.setItem("userId", userId);
+      localStorage.setItem("userHref", userHref);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
 
-      login(userId, accessToken, refreshToken);
+      login(userHref, accessToken, refreshToken);
 
       navigate("/stable");
     } catch (err: any) {
