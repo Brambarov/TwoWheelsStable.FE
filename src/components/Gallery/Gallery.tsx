@@ -18,7 +18,7 @@ interface Props {
   fetchMotorcycles: () => Promise<{ data: Motorcycle[] }>;
 }
 
-const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
+const Gallery: React.FC<Props> = ({ fetchMotorcycles: getMotorcycles }) => {
   const [motorcycles, setMotorcycles] = useState<Motorcycle[]>([]);
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +28,7 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const response = await fetchMotorcycles();
+        const response = await getMotorcycles();
         const motorcycleData = response.data;
 
         const motorcycleWithImages = await Promise.all(
@@ -58,7 +58,7 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles }) => {
     };
 
     fetchData();
-  }, [fetchMotorcycles]);
+  }, [getMotorcycles]);
 
   const handleCardClick = (href: string) => {
     const path = href.replace(BASE_URL, "");
