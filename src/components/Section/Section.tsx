@@ -4,32 +4,35 @@ import React, { useEffect, useState } from "react";
 const Section: React.FC<{
   comments: any[];
   onCreate: (comment: any) => void;
-  onEdit: (comment: any) => void;
-  onDelete: (id: string) => void;
-  submitEditComment: (id: string, comment: any) => void;
-  editComment: any;
-  setEditComment: any;
+  onUpdate: (comment: any) => void;
+  onDelete: (href: string) => void;
+  submitUpdateComment: (href: string, comment: any) => void;
+  updateComment: any;
+  setUpdateComment: any;
 }> = ({
   comments,
   onCreate,
-  onEdit,
+  onUpdate: onEdit,
   onDelete,
-  submitEditComment,
-  editComment,
-  setEditComment,
+  submitUpdateComment: submitUpdateComment,
+  updateComment: updateComment,
+  setUpdateComment: setUpdateComment,
 }) => {
   const [comment, setComment] = useState({ title: "", content: "" });
-  const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    if (editComment) {
-      setComment({ title: editComment.title, content: editComment.content });
-      setIsEditing(true);
+    if (updateComment) {
+      setComment({
+        title: updateComment.title,
+        content: updateComment.content,
+      });
+      setIsUpdating(true);
     } else {
       setComment({ title: "", content: "" });
-      setIsEditing(false);
+      setIsUpdating(false);
     }
-  }, [editComment]);
+  }, [updateComment]);
 
   const handleCommentInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -50,10 +53,10 @@ const Section: React.FC<{
     });
   };
 
-  const handleEditComment = async (e: React.FormEvent) => {
+  const handleUpdateComment = async (e: React.FormEvent) => {
     e.preventDefault();
-    submitEditComment(editComment.id, comment);
-    setEditComment(null);
+    submitUpdateComment(updateComment.href, comment);
+    setUpdateComment(null);
   };
 
   return (
@@ -62,15 +65,15 @@ const Section: React.FC<{
         <h2>Comments</h2>
         <ul className="comments-container">
           {comments.map((comment: any) => (
-            <li key={comment.id} className="comment-item">
+            <li key={comment.href} className="comment-item">
               <h3 className="comment-title">{comment.title}</h3>
               <p className="comment-content">{comment.content}</p>
               <p className="comment-footer">
                 by {comment.createdBy} on {comment.createdOn}
               </p>
               <div className="comment-action">
-                <button onClick={() => onEdit(comment.id)}>Edit</button>
-                <button onClick={() => onDelete(comment.id)}>Delete</button>
+                <button onClick={() => onEdit(comment.href)}>Edit</button>
+                <button onClick={() => onDelete(comment.href)}>Delete</button>
               </div>
             </li>
           ))}
@@ -78,8 +81,8 @@ const Section: React.FC<{
       </div>
 
       <div className="comment-form">
-        <h2>{isEditing ? "Edit Comment" : "Add Comment"}</h2>
-        <form onSubmit={isEditing ? handleEditComment : handleCreateComment}>
+        <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
+        <form onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}>
           <div>
             Title
             <input
@@ -102,7 +105,7 @@ const Section: React.FC<{
             />
           </div>
           <button type="submit">
-            {isEditing ? "Save Changes" : "Submit Comment"}
+            {isUpdating ? "Save Changes" : "Submit Comment"}
           </button>
         </form>
       </div>
