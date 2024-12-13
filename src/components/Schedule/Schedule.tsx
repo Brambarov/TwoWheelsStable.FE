@@ -4,19 +4,19 @@ import { useEffect, useState } from "react";
 const Schedule: React.FC<{
   jobs: any[];
   onCreate: (job: any) => void;
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
-  submitEditJob: (id: string, job: any) => void;
-  editJob: any;
-  setEditJob: any;
+  onUpdate: (href: string) => void;
+  onDelete: (href: string) => void;
+  submitUpdateJob: (href: string, job: any) => void;
+  updateJob: any;
+  setUpdateJob: any;
 }> = ({
   jobs,
   onCreate,
-  onEdit,
+  onUpdate: onEdit,
   onDelete,
-  submitEditJob,
-  editJob,
-  setEditJob,
+  submitUpdateJob: submitUpdateJob,
+  updateJob: updateJob,
+  setUpdateJob: setUpdateJob,
 }) => {
   const [job, setJob] = useState({
     title: "",
@@ -25,18 +25,18 @@ const Schedule: React.FC<{
     dueDate: "",
     dueMileage: 0,
   });
-  const [isEditing, setIsEditing] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    if (editJob) {
+    if (updateJob) {
       setJob({
-        title: editJob.title,
-        description: editJob.description,
-        cost: editJob.cost,
-        dueDate: editJob.dueDate,
-        dueMileage: editJob.dueMileage,
+        title: updateJob.title,
+        description: updateJob.description,
+        cost: updateJob.cost,
+        dueDate: updateJob.dueDate,
+        dueMileage: updateJob.dueMileage,
       });
-      setIsEditing(true);
+      setIsUpdating(true);
     } else {
       setJob({
         title: "",
@@ -45,9 +45,9 @@ const Schedule: React.FC<{
         dueDate: "",
         dueMileage: 0,
       });
-      setIsEditing(false);
+      setIsUpdating(false);
     }
-  }, [editJob]);
+  }, [updateJob]);
 
   const handleJobInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,10 +68,10 @@ const Schedule: React.FC<{
     });
   };
 
-  const handleEditJob = async (e: React.FormEvent) => {
+  const handleUpdateJob = async (e: React.FormEvent) => {
     e.preventDefault();
-    submitEditJob(editJob.id, job);
-    setEditJob(null);
+    submitUpdateJob(updateJob.href, job);
+    setUpdateJob(null);
   };
 
   return (
@@ -94,8 +94,8 @@ const Schedule: React.FC<{
       </div>
 
       <div className="schedule-form">
-        <h2>{isEditing ? "Edit Job" : "Add Job"}</h2>
-        <form onSubmit={isEditing ? handleEditJob : handleCreateJob}>
+        <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
+        <form onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}>
           <div>
             <input
               type="text"
@@ -146,7 +146,7 @@ const Schedule: React.FC<{
             />
           </div>
           <button type="submit">
-            {isEditing ? "Save Changes" : "Create Job"}
+            {isUpdating ? "Save Changes" : "Create Job"}
           </button>
         </form>
       </div>
