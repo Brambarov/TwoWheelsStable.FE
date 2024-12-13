@@ -69,7 +69,7 @@ const Section: React.FC<{
               <h3 className="comment-title">{comment.title}</h3>
               <p className="comment-content">{comment.content}</p>
               <p className="comment-footer">
-                by {comment.createdBy} on {comment.createdOn}
+                by {comment.userName} on {comment.createdOn}
               </p>
               <div className="comment-action">
                 <button onClick={() => onEdit(comment.href)}>Edit</button>
