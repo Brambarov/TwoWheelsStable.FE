@@ -80,14 +80,14 @@ const Schedule: React.FC<{
         <h2>Maintenance Schedule</h2>
         <ul>
           {jobs.map((job: any) => (
-            <li key={job.id}>
+            <li key={job.href}>
               <h3>{job.title}</h3>
               <p>{job.description}</p>
               <p>Cost: {job.cost}</p>
               <p>Due Date: {job.dueDate}</p>
               <p>Due Mileage: {job.dueMileage}</p>
-              <button onClick={() => onEdit(job.id)}>Edit</button>
-              <button onClick={() => onDelete(job.id)}>Delete</button>
+              <button onClick={() => onEdit(job.href)}>Edit</button>
+              <button onClick={() => onDelete(job.href)}>Delete</button>
             </li>
           ))}
         </ul>
