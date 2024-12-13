@@ -32,7 +32,7 @@ const GetMotorcycle: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchMotorcycle = async () => {
+    const getMotorcycle = async () => {
       try {
         const response = await getResource(href);
         setMotorcycle(response.data);
@@ -48,12 +48,12 @@ const GetMotorcycle: React.FC = () => {
       }
     };
 
-    fetchMotorcycle();
+    getMotorcycle();
   }, [id]);
 
   const handleDelete = async () => {
     try {
-      await deleteResource(id!);
+      await deleteResource(href);
       navigate("/stable");
     } catch (err) {
       setError("Failed to delete motorcycle!");
