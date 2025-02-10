@@ -2,6 +2,7 @@ import { useState } from "react";
 import { batchCreate, createMotorcycle } from "../../../api";
 import { useNavigate } from "react-router-dom";
 import { extractIdFromHref } from "../../../utils/String";
+import "./CreateMotorcycles.css";
 
 const CreateMotorcycle: React.FC = () => {
   const [motorcycle, setMotorcycle] = useState({
@@ -60,10 +61,10 @@ const CreateMotorcycle: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Add Motorcycle</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="create-motorcycle-container">
+      <h2 className="form-title">Add new motorcycle</h2>
+      <form onSubmit={handleSubmit} className="create-motorcycle-form">
+        <div className="form-group">
           <label>Name</label>
           <input
             type="text"
@@ -71,6 +72,9 @@ const CreateMotorcycle: React.FC = () => {
             value={motorcycle.name}
             onChange={handleMotorcycleChange}
           />
+        </div>
+
+        <div className="form-group">
           <label>Make</label>
           <input
             type="text"
@@ -78,6 +82,9 @@ const CreateMotorcycle: React.FC = () => {
             value={motorcycle.make}
             onChange={handleMotorcycleChange}
           />
+        </div>
+
+        <div className="form-group">
           <label>Model</label>
           <input
             type="text"
@@ -85,6 +92,9 @@ const CreateMotorcycle: React.FC = () => {
             value={motorcycle.model}
             onChange={handleMotorcycleChange}
           />
+        </div>
+
+        <div className="form-group">
           <label>Year</label>
           <input
             type="number"
@@ -92,6 +102,9 @@ const CreateMotorcycle: React.FC = () => {
             value={motorcycle.year}
             onChange={handleMotorcycleChange}
           />
+        </div>
+
+        <div className="form-group">
           <label>Mileage</label>
           <input
             type="number"
@@ -99,12 +112,17 @@ const CreateMotorcycle: React.FC = () => {
             value={motorcycle.mileage}
             onChange={handleMotorcycleChange}
           />
+        </div>
+
+        <div className="form-group">
           <label>Images:</label>
           <input type="file" multiple onChange={handleImagesChange} />
         </div>
+
         <button type="submit">Create Motorcycle</button>
       </form>
-      {error && <p>{error}</p>}
+
+      {error && <p className="error-message">{error}</p>}
     </div>
   );
 };
