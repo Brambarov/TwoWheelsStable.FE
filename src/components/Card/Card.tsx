@@ -25,17 +25,12 @@ const Card: React.FC<Props> = ({
           "https://via.placeholder.com/250x150.png?text=Motorcycle+Image"
         }
         alt="Motorcycle"
-        className="card-image"
       />
       <div className="card-details">
-        <h3>{name}</h3>
-        <p>
-          <strong>Make: </strong> {make}{" "}
-        </p>
-        <p>
-          <strong>Model: </strong> {model}{" "}
-        </p>
-        <p className="card-owner">Owner: {owner}</p>
+        <h3>
+          {name} - {make} {model}
+        </h3>
+        <p>Owner: {owner}</p>
       </div>
     </div>
   );
