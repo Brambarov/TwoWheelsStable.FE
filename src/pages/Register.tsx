@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
+import "./AuthForm.css";
 
 const Register: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -13,11 +14,9 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const data = { userName, email, password };
-
     try {
-      const response = await registerUser(data);
-      setSuccess("Registration successful!");
+      await registerUser({ userName, email, password });
+      setSuccess("Registration successful! Redirecting...");
       setError("");
 
       setTimeout(() => {
@@ -30,14 +29,14 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="auth-form-container">
+      <h2 className="auth-form-title">Register</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
+      {error && <p className="auth-error-message">{error}</p>}
+      {success && <p className="auth-success-message">{success}</p>}
 
-      <form onSubmit={handleSubmit}>
-        <div>
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="auth-form-group">
           <label>Username:</label>
           <input
             type="text"
@@ -46,7 +45,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <div>
+        <div className="auth-form-group">
           <label>Email:</label>
           <input
             type="email"
@@ -55,7 +54,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <div>
+        <div className="auth-form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -64,7 +63,9 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <button type="submit">Register</button>
+        <button className="auth-submit-button" type="submit">
+          Register
+        </button>
       </form>
     </div>
   );

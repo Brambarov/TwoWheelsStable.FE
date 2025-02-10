@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 import { useAuth } from "../context/AuthContext";
+import "./AuthForm.css";
 
 interface Props {}
 
@@ -18,9 +19,7 @@ const Login: React.FC<Props> = () => {
     try {
       const response = await loginUser({ userName, password });
 
-      const userHref = response.data.href;
-      const accessToken = response.data.accessToken;
-      const refreshToken = response.data.refreshToken;
+      const { href: userHref, accessToken, refreshToken } = response.data;
       localStorage.setItem("userHref", userHref);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
@@ -34,11 +33,11 @@ const Login: React.FC<Props> = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="auth-form-container">
+      <h2 className="auth-form-title">Login</h2>
+      {error && <p className="auth-error-message">{error}</p>}
+      <form className="auth-form" onSubmit={handleSubmit}>
+        <div className="auth-form-group">
           <label>Username:</label>
           <input
             type="text"
@@ -47,7 +46,8 @@ const Login: React.FC<Props> = () => {
             required
           />
         </div>
-        <div>
+
+        <div className="auth-form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -56,7 +56,9 @@ const Login: React.FC<Props> = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button className="auth-submit-button" type="submit">
+          Login
+        </button>
       </form>
     </div>
   );
