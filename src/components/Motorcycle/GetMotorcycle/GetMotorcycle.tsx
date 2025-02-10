@@ -9,8 +9,6 @@ import {
 } from "../../../api";
 import { useNavigate } from "react-router-dom";
 import { extractIdFromHref, toString } from "../../../utils/String";
-import "../../Comment/Comment.css";
-import "./GetMotorcycle.css";
 import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/Table";
@@ -18,6 +16,7 @@ import Schedule from "../../Schedule/Schedule";
 import Section from "../../Section/Section";
 import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
+import "./GetMotorcycle.css";
 
 const GetMotorcycle: React.FC = () => {
   const location = useLocation();
@@ -156,32 +155,30 @@ const GetMotorcycle: React.FC = () => {
 
   return (
     <div>
-      <div>
-        <MotorcycleHeader motorcycle={motorcycle} images={images} />
+      <MotorcycleHeader motorcycle={motorcycle} images={images} />
 
-        {motorcycle.userHref === href && (
-          <>
-            <button
-              onClick={() =>
-                navigate(`/motorcycles/edit/${motorcycleId}`, {
-                  state: { href: motorcycleHref },
-                })
-              }
-            >
-              Update
-            </button>
-            <button onClick={() => setShowConfirmation(true)}>Delete</button>
-          </>
-        )}
+      {motorcycle.userHref === href && (
+        <>
+          <button
+            onClick={() =>
+              navigate(`/motorcycles/edit/${motorcycleId}`, {
+                state: { href: motorcycleHref },
+              })
+            }
+          >
+            Update
+          </button>
+          <button onClick={() => setShowConfirmation(true)}>Delete</button>
+        </>
+      )}
 
-        {showConfirmation && (
-          <ConfirmModal
-            message="Are you sure you want to delete this motorcycle?"
-            onConfirm={handleDelete}
-            onCancel={() => setShowConfirmation(false)}
-          />
-        )}
-      </div>
+      {showConfirmation && (
+        <ConfirmModal
+          message="Are you sure you want to delete this motorcycle?"
+          onConfirm={handleDelete}
+          onCancel={() => setShowConfirmation(false)}
+        />
+      )}
 
       <SpecsTable specs={motorcycle.specs} />
       <Schedule
