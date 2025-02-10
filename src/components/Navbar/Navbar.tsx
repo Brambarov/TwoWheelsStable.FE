@@ -32,9 +32,9 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
           <Link to="/stable" className="nav-item">
             My Stable
           </Link>
-          <button onClick={onLogout} className="nav-item logout-button">
+          <Link to="/" onClick={onLogout} className="nav-item logout-link">
             Logout
-          </button>
+          </Link>
         </>
       ) : (
         <>
