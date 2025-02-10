@@ -30,9 +30,12 @@ const Card: React.FC<Props> = ({
       <div className="card-details">
         <h3>{name}</h3>
         <p>
-          {make} {model}
+          <strong>Make: </strong> {make}{" "}
         </p>
-        <p>Owner: {owner}</p>
+        <p>
+          <strong>Model: </strong> {model}{" "}
+        </p>
+        <p className="card-owner">Owner: {owner}</p>
       </div>
     </div>
   );
