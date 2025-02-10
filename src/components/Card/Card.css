@@ -36,7 +36,7 @@
   flex-direction: column;
   justify-content: center;
   padding: 8px 12px;
-  text-align: center;
+  text-align: left;
   backdrop-filter: blur(6px);
   opacity: 0;
   pointer-events: none;
