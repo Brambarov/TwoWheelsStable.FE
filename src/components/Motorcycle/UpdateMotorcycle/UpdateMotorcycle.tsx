@@ -49,10 +49,10 @@ const UpdateMotorcycle: React.FC = () => {
   };
 
   return (
-    <div>
-      <h2>Update Motorcycle</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
+    <div className="tws-form-container">
+      <h2 className="tws-form-title">Update Motorcycle</h2>
+      <form className="tws-form" onSubmit={handleSubmit}>
+        <div className="tws-form-group">
           <label>Name</label>
           <input
             type="text"
@@ -89,7 +89,10 @@ const UpdateMotorcycle: React.FC = () => {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit">Update Motorcycle</button>
+
+        <button className="tws-button-submit" type="submit">
+          Update Motorcycle
+        </button>
       </form>
       {error && <p>{error}</p>}
     </div>

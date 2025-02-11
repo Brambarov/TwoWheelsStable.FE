@@ -1,0 +1,289 @@
+/* #region Generic */
+.tws-button-submit {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: blue;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tws-button-submit:hover {
+  background-color: darkblue;
+}
+
+.tws-button-warning {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: orange;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tws-button-warning:hover {
+  background-color: darkorange;
+}
+
+.tws-button-danger {
+  padding: 0.75rem;
+  border: none;
+  border-radius: 5px;
+  background-color: red;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tws-button-danger:hover {
+  background-color: darkred;
+}
+
+.tws-error-message {
+  color: red;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.tws-success-message {
+  color: green;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.tws-settings {
+  margin: 20px;
+  text-align: center;
+}
+
+.tws-settings label {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.tws-settings input {
+  font-size: 16px;
+  padding: 5px;
+  width: 50px;
+}
+
+.tws-error-message {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}
+/* #endregion Generic */
+
+/* #region Navigation Bar */
+.tws-navbar {
+  position: sticky;
+  top: 0;
+  background-color: #333;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+}
+
+.tws-nav-item {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.tws-nav-item:hover {
+  color: #00bcd4;
+}
+/* #endregion Navigation Bar */
+
+/* #region Card */
+.tws-card {
+  position: relative;
+  cursor: pointer;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.tws-card:hover {
+  transform: scale(1.05) rotate(5deg);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.tws-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.tws-card-details {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25%;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 12px;
+  text-align: left;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.tws-card:hover .tws-card-details {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tws-card-details h3 {
+  color: white;
+  font-size: clamp(14px, 2vw, 18px);
+  font-weight: bold;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tws-card-details p {
+  color: white;
+  font-size: clamp(12px, 1.5vw, 16px);
+  margin: 2px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* #endregion Card */
+
+/* #region Gallery */
+.tws-gallery {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+@media (min-width: 768px) {
+  .tws-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+.tws-gallery-row {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+/* #endregion Gallery */
+
+/* #region Form */
+.tws-form-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: #fff;
+}
+
+.tws-form-title {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.tws-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.tws-form-group {
+  display: flex;
+  flex-direction: column;
+}
+/* #endregion From */
+
+/* #region Motorcycle Details */
+
+/* #endregion Motorcycle Details */
+
+/* #region Motorcycle Header */
+.tws-motorcycle-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 10px;
+}
+
+.tws-motorcycle-header {
+  position: relative;
+  width: 100%;
+  color: #ffffff;
+  max-width: 800px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 10px;
+}
+
+.tws-motorcycle-info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 5px;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 1);
+  letter-spacing: 0.5px;
+}
+
+.tws-motorcycle-info h1 {
+  color: white;
+  font-size: 1.6rem;
+}
+
+.tws-motorcycle-info p {
+  color: white;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+/* #endregion Motorcycle Header */
+
+/* #region Section */
+.tws-section-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.tws-section-list {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  max-height: 800px;
+  overflow-y: auto;
+}
+/* #endregion Section */

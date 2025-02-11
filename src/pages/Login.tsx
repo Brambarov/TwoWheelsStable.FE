@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api";
 import { useAuth } from "../context/AuthContext";
-import "./AuthForm.css";
 
 interface Props {}
 
@@ -33,11 +32,13 @@ const Login: React.FC<Props> = () => {
   };
 
   return (
-    <div className="auth-form-container">
-      <h2 className="auth-form-title">Login</h2>
-      {error && <p className="auth-error-message">{error}</p>}
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <div className="auth-form-group">
+    <div className="tws-form-container">
+      <h2 className="tws-form-title">Login</h2>
+
+      {error && <p className="tws-error-message">{error}</p>}
+
+      <form className="tws-form" onSubmit={handleSubmit}>
+        <div className="tws-form-group">
           <label>Username:</label>
           <input
             type="text"
@@ -45,9 +46,6 @@ const Login: React.FC<Props> = () => {
             onChange={(e) => setUserName(e.target.value)}
             required
           />
-        </div>
-
-        <div className="auth-form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -56,7 +54,8 @@ const Login: React.FC<Props> = () => {
             required
           />
         </div>
-        <button className="auth-submit-button" type="submit">
+
+        <button className="tws-button-submit" type="submit">
           Login
         </button>
       </form>

@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import "./Navbar.css";
 import { useAuth } from "../../context/AuthContext";
 import { useEffect } from "react";
 
@@ -20,28 +19,28 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
   }, [href, accessToken, refreshToken]);
 
   return (
-    <nav className="navbar">
-      <Link to="/" className="nav-item">
+    <nav className="tws-navbar">
+      <Link className="tws-nav-item" to="/">
         Home
       </Link>
       {accessToken ? (
         <>
-          <Link to="/motorcycles/new" className="nav-item">
+          <Link className="tws-nav-item" to="/motorcycles/new">
             Create Motorcycle
           </Link>
-          <Link to="/stable" className="nav-item">
+          <Link className="tws-nav-item" to="/stable">
             My Stable
           </Link>
-          <Link to="/" onClick={onLogout} className="nav-item logout-link">
+          <Link className="tws-nav-item" to="/" onClick={onLogout}>
             Logout
           </Link>
         </>
       ) : (
         <>
-          <Link to="/login" className="nav-item">
+          <Link className="tws-nav-item" to="/login">
             Login
           </Link>
-          <Link to="/register" className="nav-item">
+          <Link className="tws-nav-item" to="/register">
             Register
           </Link>
         </>

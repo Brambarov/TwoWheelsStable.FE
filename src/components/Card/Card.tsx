@@ -1,5 +1,3 @@
-import "./Card.css";
-
 interface Props {
   name: string;
   make: string;
@@ -18,7 +16,7 @@ const Card: React.FC<Props> = ({
   onClick,
 }) => {
   return (
-    <div className="card" onClick={onClick}>
+    <div className="tws-card" onClick={onClick}>
       <img
         src={
           image ||
@@ -26,7 +24,7 @@ const Card: React.FC<Props> = ({
         }
         alt="Motorcycle"
       />
-      <div className="card-details">
+      <div className="tws-card-details">
         <h3>
           {name} - {make} {model}
         </h3>

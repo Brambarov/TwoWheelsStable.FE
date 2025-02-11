@@ -1,5 +1,4 @@
 import { useAuth } from "../../context/AuthContext";
-import "./Schedule.css";
 import { useEffect, useState } from "react";
 
 const Schedule: React.FC<{
@@ -79,8 +78,8 @@ const Schedule: React.FC<{
   };
 
   return (
-    <div className="schedule-container">
-      <div className="schedule-list">
+    <div className="tws-section-container">
+      <div className="tws-section-list">
         <h2>Maintenance Schedule</h2>
         <ul>
           {jobs.map((job: any) => (
@@ -92,8 +91,18 @@ const Schedule: React.FC<{
               <p>Due Mileage: {job.dueMileage}</p>
               {motorcycleUserHref === href && (
                 <>
-                  <button onClick={() => onEdit(job.href)}>Edit</button>
-                  <button onClick={() => onDelete(job.href)}>Delete</button>
+                  <button
+                    className="tws-button-submit"
+                    onClick={() => onEdit(job.href)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="tws-button-submit"
+                    onClick={() => onDelete(job.href)}
+                  >
+                    Delete
+                  </button>
                 </>
               )}
             </li>
@@ -103,10 +112,13 @@ const Schedule: React.FC<{
 
       {motorcycleUserHref === href && (
         <>
-          <div className="schedule-form">
+          <div className="tws-form-container">
             <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
-            <form onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}>
-              <div>
+            <form
+              className="tws-form"
+              onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}
+            >
+              <div className="tws-form-group">
                 <input
                   type="text"
                   name="title"
@@ -115,8 +127,6 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                   required
                 />
-              </div>
-              <div>
                 <textarea
                   name="description"
                   placeholder="Job Description"
@@ -124,8 +134,6 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                   required
                 />
-              </div>
-              <div>
                 Cost
                 <input
                   type="number"
@@ -135,8 +143,6 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                   required
                 />
-              </div>
-              <div>
                 Due Date
                 <input
                   type="date"
@@ -144,8 +150,6 @@ const Schedule: React.FC<{
                   value={job.dueDate}
                   onChange={handleJobInputChange}
                 />
-              </div>
-              <div>
                 Due Mileage
                 <input
                   type="number"
@@ -155,7 +159,8 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                 />
               </div>
-              <button type="submit">
+
+              <button className="tws-button-submit" type="submit">
                 {isUpdating ? "Save Changes" : "Create Job"}
               </button>
             </form>

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api";
-import "./AuthForm.css";
 
 const Register: React.FC = () => {
   const [userName, setUserName] = useState("");
@@ -29,14 +28,14 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="auth-form-container">
-      <h2 className="auth-form-title">Register</h2>
+    <div className="tws-form-container">
+      <h2 className="tws-form-title">Register</h2>
 
-      {error && <p className="auth-error-message">{error}</p>}
-      {success && <p className="auth-success-message">{success}</p>}
+      {error && <p className="tws-error-message">{error}</p>}
+      {success && <p className="tws-success-message">{success}</p>}
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <div className="auth-form-group">
+      <form className="tws-form" onSubmit={handleSubmit}>
+        <div className="tws-form-group">
           <label>Username:</label>
           <input
             type="text"
@@ -45,7 +44,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <div className="auth-form-group">
+        <div className="tws-form-group">
           <label>Email:</label>
           <input
             type="email"
@@ -54,7 +53,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <div className="auth-form-group">
+        <div className="tws-form-group">
           <label>Password:</label>
           <input
             type="password"
@@ -63,7 +62,7 @@ const Register: React.FC = () => {
           />
         </div>
 
-        <button className="auth-submit-button" type="submit">
+        <button className="tws-button-submit" type="submit">
           Register
         </button>
       </form>

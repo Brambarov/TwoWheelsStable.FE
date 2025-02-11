@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Card from "../Card/Card";
-import "./Gallery.css";
 import { getImageByResourceId } from "../../api";
 import { BASE_URL } from "../../api";
 import { extractIdFromHref } from "../../utils/String";
+import Card from "../Card/Card";
 
 interface Motorcycle {
   href: string;
@@ -69,10 +68,10 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles: getMotorcycles }) => {
   return (
     <div>
       {isLoading && <p>Loading...</p>}
-      {error && <p className="error-message">{error}</p>}
+      {error && <p className="tws-error-message">{error}</p>}
 
       <div
-        className="gallery"
+        className="tws-gallery"
         style={{ gridTemplateColumns: `repeat(3, 1fr)` }}
       >
         {motorcycles.map((motorcycle) => (

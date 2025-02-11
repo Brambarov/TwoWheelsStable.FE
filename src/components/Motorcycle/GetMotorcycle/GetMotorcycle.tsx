@@ -13,10 +13,9 @@ import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/Table";
 import Schedule from "../../Schedule/Schedule";
-import Section from "../../Section/Section";
 import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
-import "./GetMotorcycle.css";
+import Comments from "../../Comments/Comments";
 
 const GetMotorcycle: React.FC = () => {
   const location = useLocation();
@@ -160,6 +159,7 @@ const GetMotorcycle: React.FC = () => {
       {motorcycle.userHref === href && (
         <>
           <button
+            className="tws-button-warning"
             onClick={() =>
               navigate(`/motorcycles/edit/${motorcycleId}`, {
                 state: { href: motorcycleHref },
@@ -168,7 +168,12 @@ const GetMotorcycle: React.FC = () => {
           >
             Update
           </button>
-          <button onClick={() => setShowConfirmation(true)}>Delete</button>
+          <button
+            className="tws-button-danger"
+            onClick={() => setShowConfirmation(true)}
+          >
+            Delete
+          </button>
         </>
       )}
 
@@ -194,7 +199,7 @@ const GetMotorcycle: React.FC = () => {
 
       {href && (
         <>
-          <Section
+          <Comments
             comments={motorcycle.comments}
             onCreate={(comment) => handleCreateComment(comment)}
             onUpdate={(href) => handleUpdateComment(href)}
