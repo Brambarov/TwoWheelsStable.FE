@@ -1,7 +1,8 @@
 import { useAuth } from "../../context/AuthContext";
 import React, { useEffect, useState } from "react";
 
-const Comments: React.FC<{
+const Discussion: React.FC<{
+  motorcycleUserHref: string;
   comments: any[];
   onCreate: (comment: any) => void;
   onUpdate: (comment: any) => void;
@@ -10,6 +11,7 @@ const Comments: React.FC<{
   updateComment: any;
   setUpdateComment: any;
 }> = ({
+  motorcycleUserHref,
   comments,
   onCreate,
   onUpdate: onEdit,
@@ -18,9 +20,9 @@ const Comments: React.FC<{
   updateComment: updateComment,
   setUpdateComment: setUpdateComment,
 }) => {
+  const { userHref: href } = useAuth();
   const [comment, setComment] = useState({ title: "", content: "" });
   const [isUpdating, setIsUpdating] = useState(false);
-  const { userHref: href } = useAuth();
 
   useEffect(() => {
     if (updateComment) {
@@ -63,27 +65,27 @@ const Comments: React.FC<{
   return (
     <div className="tws-section-container">
       <div className="tws-section-list">
-        <h2>Comments</h2>
-        <ul className="tws-comments-container">
+        <h2>Discussion</h2>
+        <ul>
           {comments.map((comment: any) => (
-            <li key={comment.href} className="tws-comment-item">
-              <h3 className="tws-comment-title">{comment.title}</h3>
-              <p className="tws-comment-content">{comment.content}</p>
-              <p className="tws-comment-footer">
+            <li key={comment.href}>
+              <h3>{comment.title}</h3>
+              <p>{comment.content}</p>
+              <p>
                 by {comment.userName} on {comment.createdOn}
               </p>
 
               {comment.userHref === href && (
                 <>
-                  <div className="tws-comment-action">
+                  <div>
                     <button
-                      className="tws-button-submit"
+                      className="tws-button-warning"
                       onClick={() => onEdit(comment.href)}
                     >
                       Edit
                     </button>
                     <button
-                      className="tws-button-submit"
+                      className="tws-button-danger"
                       onClick={() => onDelete(comment.href)}
                     >
                       Delete
@@ -104,19 +106,17 @@ const Comments: React.FC<{
           onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}
         >
           <div className="tws-form-group">
-            Title
             <input
               type="text"
-              id="title"
               name="title"
+              placeholder="Title"
               value={comment.title}
               onChange={handleCommentInputChange}
               required
             />
-            Content
             <textarea
-              id="content"
               name="content"
+              placeholder="Content"
               value={comment.content}
               onChange={handleCommentInputChange}
               required
@@ -132,4 +132,4 @@ const Comments: React.FC<{
   );
 };
 
-export default Comments;
+export default Discussion;

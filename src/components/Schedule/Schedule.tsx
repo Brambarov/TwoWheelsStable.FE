@@ -89,16 +89,17 @@ const Schedule: React.FC<{
               <p>Cost: {job.cost}</p>
               <p>Due Date: {job.dueDate}</p>
               <p>Due Mileage: {job.dueMileage}</p>
+
               {motorcycleUserHref === href && (
                 <>
                   <button
-                    className="tws-button-submit"
+                    className="tws-button-warning"
                     onClick={() => onEdit(job.href)}
                   >
                     Edit
                   </button>
                   <button
-                    className="tws-button-submit"
+                    className="tws-button-danger"
                     onClick={() => onDelete(job.href)}
                   >
                     Delete
@@ -114,6 +115,7 @@ const Schedule: React.FC<{
         <>
           <div className="tws-form-container">
             <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
+            
             <form
               className="tws-form"
               onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}

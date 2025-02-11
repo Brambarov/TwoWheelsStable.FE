@@ -15,7 +15,7 @@ import SpecsTable from "../../Specs/Table";
 import Schedule from "../../Schedule/Schedule";
 import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";
-import Comments from "../../Comments/Comments";
+import Discussion from "../../Discussion/Discussion";
 
 const GetMotorcycle: React.FC = () => {
   const location = useLocation();
@@ -199,7 +199,8 @@ const GetMotorcycle: React.FC = () => {
 
       {href && (
         <>
-          <Comments
+          <Discussion
+            motorcycleUserHref={motorcycle.userHref}
             comments={motorcycle.comments}
             onCreate={(comment) => handleCreateComment(comment)}
             onUpdate={(href) => handleUpdateComment(href)}
