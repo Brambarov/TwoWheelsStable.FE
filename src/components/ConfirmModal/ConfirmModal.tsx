@@ -5,11 +5,15 @@ const ConfirmModal: React.FC<{
 }> = ({ message, onConfirm, onCancel }) => {
   return (
     <div>
-      <div className="modal">
-        <div className="modal-content">
+      <div className="tws-modal">
+        <div className="tws-modal-content">
           <p>{message}</p>
-          <button onClick={onConfirm}>Yes</button>
-          <button onClick={onCancel}>No</button>
+          <button className="tws-button-danger" onClick={onConfirm}>
+            Yes
+          </button>
+          <button className="tws-button-submit" onClick={onCancel}>
+            No
+          </button>
         </div>
       </div>
     </div>

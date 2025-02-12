@@ -12,7 +12,7 @@ const MotorcycleHeader: React.FC<{
         />
       )}
       <div className="tws-motorcycle-info">
-        <h1>{motorcycle.name}</h1>
+        <h2>{motorcycle.name}</h2>
         <p>
           {motorcycle.make} {motorcycle.model}, {motorcycle.year},{" "}
           {motorcycle.mileage} km

@@ -33,9 +33,9 @@ const Login: React.FC<Props> = () => {
 
   return (
     <div className="tws-form-container">
-      <h2 className="tws-form-title">Login</h2>
+      <h1>Login</h1>
 
-      {error && <p className="tws-error-message">{error}</p>}
+      {error && <p className="tws-message-error">{error}</p>}
 
       <form className="tws-form" onSubmit={handleSubmit}>
         <div className="tws-form-group">

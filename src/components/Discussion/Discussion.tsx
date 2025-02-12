@@ -63,70 +63,73 @@ const Discussion: React.FC<{
   };
 
   return (
-    <div className="tws-section-container">
-      <div className="tws-section-list">
-        <h2>Discussion</h2>
-        <ul>
-          {comments.map((comment: any) => (
-            <li key={comment.href}>
-              <h3>{comment.title}</h3>
-              <p>{comment.content}</p>
-              <p>
-                by {comment.userName} on {comment.createdOn}
-              </p>
+    <div className="tws-container-flex">
+      <div className="tws-container-flex-column">
+        <div className="tws-list">
+          <h2>Discussion</h2>
+          <ul>
+            {comments.map((comment: any) => (
+              <li key={comment.href}>
+                <h3>{comment.title}</h3>
+                <p>{comment.content}</p>
+                <p>
+                  by {comment.userName} on {comment.createdOn}
+                </p>
 
-              {comment.userHref === href && (
-                <>
-                  <div>
-                    <button
-                      className="tws-button-warning"
-                      onClick={() => onEdit(comment.href)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className="tws-button-danger"
-                      onClick={() => onDelete(comment.href)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+                {comment.userHref === href && (
+                  <>
+                    <div>
+                      <button
+                        className="tws-button-warning"
+                        onClick={() => onEdit(comment.href)}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="tws-button-danger"
+                        onClick={() => onDelete(comment.href)}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
+      <div className="tws-container-flex-column">
+        <div className="tws-form-container">
+          <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
 
-      <div className="tws-form-container">
-        <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
+          <form
+            className="tws-form"
+            onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}
+          >
+            <div className="tws-form-group">
+              <input
+                type="text"
+                name="title"
+                placeholder="Title"
+                value={comment.title}
+                onChange={handleCommentInputChange}
+                required
+              />
+              <textarea
+                name="content"
+                placeholder="Content"
+                value={comment.content}
+                onChange={handleCommentInputChange}
+                required
+              />
+            </div>
 
-        <form
-          className="tws-form"
-          onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}
-        >
-          <div className="tws-form-group">
-            <input
-              type="text"
-              name="title"
-              placeholder="Title"
-              value={comment.title}
-              onChange={handleCommentInputChange}
-              required
-            />
-            <textarea
-              name="content"
-              placeholder="Content"
-              value={comment.content}
-              onChange={handleCommentInputChange}
-              required
-            />
-          </div>
-
-          <button className="tws-button-submit" type="submit">
-            {isUpdating ? "Save Changes" : "Submit Comment"}
-          </button>
-        </form>
+            <button className="tws-button-submit" type="submit">
+              {isUpdating ? "Save Changes" : "Submit Comment"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

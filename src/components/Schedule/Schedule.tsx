@@ -78,97 +78,101 @@ const Schedule: React.FC<{
   };
 
   return (
-    <div className="tws-section-container">
-      <div className="tws-section-list">
-        <h2>Maintenance Schedule</h2>
-        <ul>
-          {jobs.map((job: any) => (
-            <li key={job.href}>
-              <h3>{job.title}</h3>
-              <p>{job.description}</p>
-              <p>Cost: {job.cost}</p>
-              <p>Due Date: {job.dueDate}</p>
-              <p>Due Mileage: {job.dueMileage}</p>
+    <div className="tws-container-flex">
+      <div className="tws-container-flex-column">
+        <div className="tws-list">
+          <h2>Maintenance Schedule</h2>
+          <ul>
+            {jobs.map((job: any) => (
+              <li key={job.href}>
+                <h3>{job.title}</h3>
+                <p>{job.description}</p>
+                <p>Cost: {job.cost}</p>
+                <p>Due Date: {job.dueDate}</p>
+                <p>Due Mileage: {job.dueMileage}</p>
 
-              {motorcycleUserHref === href && (
-                <>
-                  <button
-                    className="tws-button-warning"
-                    onClick={() => onEdit(job.href)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="tws-button-danger"
-                    onClick={() => onDelete(job.href)}
-                  >
-                    Delete
-                  </button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
+                {motorcycleUserHref === href && (
+                  <>
+                    <button
+                      className="tws-button-warning"
+                      onClick={() => onEdit(job.href)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="tws-button-danger"
+                      onClick={() => onDelete(job.href)}
+                    >
+                      Delete
+                    </button>
+                  </>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
 
-      {motorcycleUserHref === href && (
-        <>
-          <div className="tws-form-container">
-            <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
-            
-            <form
-              className="tws-form"
-              onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}
-            >
-              <div className="tws-form-group">
-                <input
-                  type="text"
-                  name="title"
-                  placeholder="Job Title"
-                  value={job.title}
-                  onChange={handleJobInputChange}
-                  required
-                />
-                <textarea
-                  name="description"
-                  placeholder="Job Description"
-                  value={job.description}
-                  onChange={handleJobInputChange}
-                  required
-                />
-                Cost
-                <input
-                  type="number"
-                  name="cost"
-                  placeholder="Cost"
-                  value={job.cost}
-                  onChange={handleJobInputChange}
-                  required
-                />
-                Due Date
-                <input
-                  type="date"
-                  name="dueDate"
-                  value={job.dueDate}
-                  onChange={handleJobInputChange}
-                />
-                Due Mileage
-                <input
-                  type="number"
-                  name="dueMileage"
-                  placeholder="Due Mileage"
-                  value={job.dueMileage}
-                  onChange={handleJobInputChange}
-                />
-              </div>
+      <div className="tws-container-flex-column">
+        {motorcycleUserHref === href && (
+          <>
+            <div className="tws-form-container">
+              <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
 
-              <button className="tws-button-submit" type="submit">
-                {isUpdating ? "Save Changes" : "Create Job"}
-              </button>
-            </form>
-          </div>
-        </>
-      )}
+              <form
+                className="tws-form"
+                onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}
+              >
+                <div className="tws-form-group">
+                  <input
+                    type="text"
+                    name="title"
+                    placeholder="Job Title"
+                    value={job.title}
+                    onChange={handleJobInputChange}
+                    required
+                  />
+                  <textarea
+                    name="description"
+                    placeholder="Job Description"
+                    value={job.description}
+                    onChange={handleJobInputChange}
+                    required
+                  />
+                  Cost
+                  <input
+                    type="number"
+                    name="cost"
+                    placeholder="Cost"
+                    value={job.cost}
+                    onChange={handleJobInputChange}
+                    required
+                  />
+                  Due Date
+                  <input
+                    type="date"
+                    name="dueDate"
+                    value={job.dueDate}
+                    onChange={handleJobInputChange}
+                  />
+                  Due Mileage
+                  <input
+                    type="number"
+                    name="dueMileage"
+                    placeholder="Due Mileage"
+                    value={job.dueMileage}
+                    onChange={handleJobInputChange}
+                  />
+                </div>
+
+                <button className="tws-button-submit" type="submit">
+                  {isUpdating ? "Save Changes" : "Create Job"}
+                </button>
+              </form>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

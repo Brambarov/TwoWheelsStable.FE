@@ -1,86 +1,96 @@
+/* Colors to use
+2c3e50 - lighter background
+072c49 - darker background
+ecf0f1 - text
+*/
+
 /* #region Generic */
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  align-content: center;
+}
+/* #endregion Generic */
+
+/* #region Buttons */
 .tws-button-submit {
   padding: 0.75rem;
   border: none;
   border-radius: 5px;
-  background-color: blue;
+  background-color: #4e98e2;
   color: white;
   font-size: 1rem;
   cursor: pointer;
 }
 
 .tws-button-submit:hover {
-  background-color: darkblue;
+  background-color: #357ab7;
 }
 
 .tws-button-warning {
   padding: 0.75rem;
   border: none;
   border-radius: 5px;
-  background-color: orange;
+  background-color: #f39c12;
   color: white;
   font-size: 1rem;
   cursor: pointer;
 }
 
 .tws-button-warning:hover {
-  background-color: darkorange;
+  background-color: #e67e22;
 }
 
 .tws-button-danger {
   padding: 0.75rem;
   border: none;
   border-radius: 5px;
-  background-color: red;
+  background-color: #e74c3c;
   color: white;
   font-size: 1rem;
   cursor: pointer;
 }
 
 .tws-button-danger:hover {
-  background-color: darkred;
+  background-color: #c0392b;
 }
+/* #endregion Buttons */
 
-.tws-error-message {
-  color: red;
+/* #region Messages */
+.tws-message-info {
+  color: blue;
   text-align: center;
-  margin-top: 1rem;
 }
 
-.tws-success-message {
+.tws-message-success {
   color: green;
   text-align: center;
-  margin-top: 1rem;
 }
 
-.tws-settings {
-  margin: 20px;
+.tws-message-error {
+  color: #e74c3c;
   text-align: center;
 }
-
-.tws-settings label {
-  font-size: 18px;
-  margin-right: 10px;
-}
-
-.tws-settings input {
-  font-size: 16px;
-  padding: 5px;
-  width: 50px;
-}
-
-.tws-error-message {
-  color: red;
-  text-align: center;
-  margin-top: 20px;
-}
-/* #endregion Generic */
+/* #endregion Messages */
 
 /* #region Navigation Bar */
 .tws-navbar {
   position: sticky;
   top: 0;
-  background-color: #333;
+  background-color: #072c49;
   padding: 10px 20px;
   display: flex;
   justify-content: space-between;
@@ -89,7 +99,7 @@
 }
 
 .tws-nav-item {
-  color: white;
+  color: #ecf0f1;
   text-decoration: none;
   margin: 0 15px;
   font-size: 18px;
@@ -97,7 +107,7 @@
 }
 
 .tws-nav-item:hover {
-  color: #00bcd4;
+  color: #16a085;
 }
 /* #endregion Navigation Bar */
 
@@ -194,31 +204,69 @@
 
 /* #region Form */
 .tws-form-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  border-color: #fff;
+  background-color: #072c49;
+  min-width: 300px;
+  max-width: 50%;
 }
 
 .tws-form-title {
   text-align: center;
   margin-bottom: 1.5rem;
-  color: #333;
+  color: #ecf0f1;
 }
 
 .tws-form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .tws-form-group {
   display: flex;
   flex-direction: column;
 }
+
+.tws-form-group input,
+.tws-form-group textarea {
+  width: 100%;
+  border: 1px solid #7f8c8d;
+  font-size: 1rem;
+  background-color: #2c3e50;
+  color: #ecf0f1;
+}
+
+.tws-form-group textarea {
+  resize: vertical;
+  min-height: 80px;
+}
 /* #endregion From */
+
+/* #region List */
+.tws-list {
+  background-color: #072c49;
+  color: #ecf0f1;
+}
+
+.tws-list h2 {
+  color: #ecf0f1;
+}
+
+.tws-list ul {
+  color: #ecf0f1;
+}
+
+.tws-list li {
+  background-color: #2c3e50;
+  list-style: circle;
+}
+
+.tws-list h3 {
+  color: #ecf0f1;
+}
+
+.tws-list p {
+  color: #ecf0f1;
+}
+/* #endregion List */
 
 /* #region Motorcycle Details */
 
@@ -268,22 +316,35 @@
 }
 /* #endregion Motorcycle Header */
 
-/* #region Section */
-.tws-section-container {
+/* #region Containers */
+.tws-container-flex {
   display: flex;
-  justify-content: space-between;
-  gap: 20px;
   flex-wrap: wrap;
 }
 
-.tws-section-list {
-  flex: 1;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-width: 300px;
-  max-height: 800px;
-  overflow-y: auto;
+.tws-container-flex-column {
+  flex: 0 0 50%;
 }
-/* #endregion Section */
+/* #endregion Containers */
+
+/* #region Modal */
+.tws-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tws-modal-content {
+  background: #ecf0f1;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* #endregion Modal */

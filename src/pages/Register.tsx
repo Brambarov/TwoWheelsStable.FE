@@ -31,8 +31,8 @@ const Register: React.FC = () => {
     <div className="tws-form-container">
       <h2 className="tws-form-title">Register</h2>
 
-      {error && <p className="tws-error-message">{error}</p>}
-      {success && <p className="tws-success-message">{success}</p>}
+      {error && <p className="tws-message-error">{error}</p>}
+      {success && <p className="tws-message-success">{success}</p>}
 
       <form className="tws-form" onSubmit={handleSubmit}>
         <div className="tws-form-group">

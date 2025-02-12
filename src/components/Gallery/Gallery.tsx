@@ -67,8 +67,9 @@ const Gallery: React.FC<Props> = ({ fetchMotorcycles: getMotorcycles }) => {
 
   return (
     <div>
-      {isLoading && <p>Loading...</p>}
-      {error && <p className="tws-error-message">{error}</p>}
+      <h1>Motorcycles Gallery</h1>
+      {isLoading && <p className="tws-message-info">Loading...</p>}
+      {error && <p className="tws-message-error">{error}</p>}
 
       <div
         className="tws-gallery"

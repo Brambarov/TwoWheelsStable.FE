@@ -108,7 +108,7 @@ const CreateMotorcycle: React.FC = () => {
         </button>
       </form>
 
-      {error && <p className="tws-error-message">{error}</p>}
+      {error && <p className="tws-message-error">{error}</p>}
     </div>
   );
 };
