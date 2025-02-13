@@ -29,42 +29,44 @@ const Register: React.FC = () => {
 
   return (
     <div className="tws-form-container">
-      <h2 className="tws-form-title">Register</h2>
+      <h1>Register</h1>
 
       {error && <p className="tws-message-error">{error}</p>}
       {success && <p className="tws-message-success">{success}</p>}
 
       <form className="tws-form" onSubmit={handleSubmit}>
         <div className="tws-form-group">
-          <label>Username:</label>
           <input
             type="text"
+            placeholder="username"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
           />
         </div>
 
         <div className="tws-form-group">
-          <label>Email:</label>
           <input
             type="email"
+            placeholder="user@mail.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
         </div>
 
         <div className="tws-form-group">
-          <label>Password:</label>
           <input
             type="password"
+            placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
 
-        <button className="tws-button-submit" type="submit">
-          Register
-        </button>
+        <div className="tws-form-group">
+          <button className="tws-button-submit" type="submit">
+            Register
+          </button>
+        </div>
       </form>
     </div>
   );

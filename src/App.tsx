@@ -19,9 +19,8 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="tws-container">
       <Navbar onLogout={handleLogout} />
-
       <Routes>
         <Route
           path="/"

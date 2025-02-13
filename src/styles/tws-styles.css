@@ -22,18 +22,27 @@ h1 {
   align-items: center;
   flex-wrap: wrap;
   align-content: center;
+  padding: 0;
+  border: 0;
+  margin: 0;
+}
+
+.tws-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 /* #endregion Generic */
 
 /* #region Buttons */
 .tws-button-submit {
-  padding: 0.75rem;
+  background-color: #4e98e2;
   border: none;
   border-radius: 5px;
-  background-color: #4e98e2;
   color: white;
   font-size: 1rem;
-  cursor: pointer;
+  width: 100%;
 }
 
 .tws-button-submit:hover {
@@ -41,13 +50,12 @@ h1 {
 }
 
 .tws-button-warning {
-  padding: 0.75rem;
+  background-color: #f39c12;
   border: none;
   border-radius: 5px;
-  background-color: #f39c12;
   color: white;
   font-size: 1rem;
-  cursor: pointer;
+  width: 100%;
 }
 
 .tws-button-warning:hover {
@@ -55,13 +63,12 @@ h1 {
 }
 
 .tws-button-danger {
-  padding: 0.75rem;
+  background-color: #e74c3c;
   border: none;
   border-radius: 5px;
-  background-color: #e74c3c;
   color: white;
   font-size: 1rem;
-  cursor: pointer;
+  width: 100%;
 }
 
 .tws-button-danger:hover {
@@ -88,14 +95,11 @@ h1 {
 
 /* #region Navigation Bar */
 .tws-navbar {
-  position: sticky;
-  top: 0;
   background-color: #072c49;
-  padding: 10px 20px;
+  position: sticky;
+  width: 100%;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  z-index: 1000;
 }
 
 .tws-nav-item {
@@ -182,17 +186,15 @@ h1 {
 /* #endregion Card */
 
 /* #region Gallery */
+.tws-gallery-container {
+  width: 100%;
+}
+
 .tws-gallery {
   display: grid;
   gap: 20px;
   padding: 20px;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-}
-
-@media (min-width: 768px) {
-  .tws-gallery {
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  }
+  justify-items: center;
 }
 
 .tws-gallery-row {
@@ -205,33 +207,29 @@ h1 {
 /* #region Form */
 .tws-form-container {
   background-color: #072c49;
-  min-width: 300px;
-  max-width: 50%;
-}
-
-.tws-form-title {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #ecf0f1;
+  width: 50%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
 }
 
 .tws-form {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .tws-form-group {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  width: 100%;
 }
 
 .tws-form-group input,
 .tws-form-group textarea {
   width: 100%;
-  border: 1px solid #7f8c8d;
-  font-size: 1rem;
-  background-color: #2c3e50;
-  color: #ecf0f1;
 }
 
 .tws-form-group textarea {
@@ -269,7 +267,9 @@ h1 {
 /* #endregion List */
 
 /* #region Motorcycle Details */
-
+.tws-details-container {
+  width: 100%;
+}
 /* #endregion Motorcycle Details */
 
 /* #region Motorcycle Header */
@@ -315,17 +315,6 @@ h1 {
   opacity: 0.9;
 }
 /* #endregion Motorcycle Header */
-
-/* #region Containers */
-.tws-container-flex {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.tws-container-flex-column {
-  flex: 0 0 50%;
-}
-/* #endregion Containers */
 
 /* #region Modal */
 .tws-modal {

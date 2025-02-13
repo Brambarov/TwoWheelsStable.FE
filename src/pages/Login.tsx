@@ -39,25 +39,30 @@ const Login: React.FC<Props> = () => {
 
       <form className="tws-form" onSubmit={handleSubmit}>
         <div className="tws-form-group">
-          <label>Username:</label>
           <input
             type="text"
+            placeholder="username"
             value={userName}
             onChange={(e) => setUserName(e.target.value)}
             required
           />
-          <label>Password:</label>
+        </div>
+
+        <div className="tws-form-group">
           <input
             type="password"
+            placeholder="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
 
-        <button className="tws-button-submit" type="submit">
-          Login
-        </button>
+        <div className="tws-form-group">
+          <button className="tws-button-submit" type="submit">
+            Login
+          </button>
+        </div>
       </form>
     </div>
   );

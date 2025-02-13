@@ -78,8 +78,8 @@ const Schedule: React.FC<{
   };
 
   return (
-    <div className="tws-container-flex">
-      <div className="tws-container-flex-column">
+    <div>
+      <div>
         <div className="tws-list">
           <h2>Maintenance Schedule</h2>
           <ul>
@@ -113,7 +113,7 @@ const Schedule: React.FC<{
         </div>
       </div>
 
-      <div className="tws-container-flex-column">
+      <div>
         {motorcycleUserHref === href && (
           <>
             <div className="tws-form-container">

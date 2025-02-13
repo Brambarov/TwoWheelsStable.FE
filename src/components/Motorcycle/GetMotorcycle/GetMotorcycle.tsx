@@ -153,76 +153,74 @@ const GetMotorcycle: React.FC = () => {
   if (!motorcycle) return <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="tws-details-container">
       <h1>Motorcycle Details</h1>
-      <div className="tws-container-flex">
-        <div className="tws-container-flex-column">
-          <MotorcycleHeader motorcycle={motorcycle} images={images} />
+      <div>
+        <MotorcycleHeader motorcycle={motorcycle} images={images} />
 
-          {motorcycle.userHref === href && (
-            <>
-              <button
-                className="tws-button-warning"
-                onClick={() =>
-                  navigate(`/motorcycles/edit/${motorcycleId}`, {
-                    state: { href: motorcycleHref },
-                  })
-                }
-              >
-                Update
-              </button>
+        {motorcycle.userHref === href && (
+          <>
+            <button
+              className="tws-button-warning"
+              onClick={() =>
+                navigate(`/motorcycles/edit/${motorcycleId}`, {
+                  state: { href: motorcycleHref },
+                })
+              }
+            >
+              Update
+            </button>
 
-              <button
-                className="tws-button-danger"
-                onClick={() => {
-                  setShowConfirmation(true);
-                }}
-              >
-                Delete
-              </button>
-            </>
-          )}
+            <button
+              className="tws-button-danger"
+              onClick={() => {
+                setShowConfirmation(true);
+              }}
+            >
+              Delete
+            </button>
+          </>
+        )}
 
-          {showConfirmation && (
-            <ConfirmModal
-              message="Are you sure you want to delete this motorcycle?"
-              onConfirm={handleDelete}
-              onCancel={() => setShowConfirmation(false)}
-            />
-          )}
-
-          <SpecsTable specs={motorcycle.specs} />
-        </div>
-
-        <div className="tws-container-flex-column">
-          <Schedule
-            motorcycleUserHref={motorcycle.userHref}
-            jobs={motorcycle.jobs}
-            onCreate={(job) => handleCreateJob(job)}
-            onUpdate={(href) => handleUpdateJob(href)}
-            onDelete={(href) => handleDeleteJob(href)}
-            submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
-            updateJob={updateJob}
-            setUpdateJob={setUpdateJob}
+        {showConfirmation && (
+          <ConfirmModal
+            message="Are you sure you want to delete this motorcycle?"
+            onConfirm={handleDelete}
+            onCancel={() => setShowConfirmation(false)}
           />
+        )}
 
-          {href && (
-            <>
-              <Discussion
-                motorcycleUserHref={motorcycle.userHref}
-                comments={motorcycle.comments}
-                onCreate={(comment) => handleCreateComment(comment)}
-                onUpdate={(href) => handleUpdateComment(href)}
-                onDelete={(href) => handleDeleteComment(href)}
-                submitUpdateComment={(href, comment) =>
-                  submitUpdateComment(href, comment)
-                }
-                updateComment={updateComment}
-                setUpdateComment={setUpdateComment}
-              />
-            </>
-          )}
-        </div>
+        <SpecsTable specs={motorcycle.specs} />
+      </div>
+
+      <div>
+        <Schedule
+          motorcycleUserHref={motorcycle.userHref}
+          jobs={motorcycle.jobs}
+          onCreate={(job) => handleCreateJob(job)}
+          onUpdate={(href) => handleUpdateJob(href)}
+          onDelete={(href) => handleDeleteJob(href)}
+          submitUpdateJob={(href, job) => submitUpdateJob(href, job)}
+          updateJob={updateJob}
+          setUpdateJob={setUpdateJob}
+        />
+
+        {href && (
+          <>
+            <Discussion
+              motorcycleUserHref={motorcycle.userHref}
+              comments={motorcycle.comments}
+              onCreate={(comment) => handleCreateComment(comment)}
+              onUpdate={(href) => handleUpdateComment(href)}
+              onDelete={(href) => handleDeleteComment(href)}
+              submitUpdateComment={(href, comment) =>
+                submitUpdateComment(href, comment)
+              }
+              updateComment={updateComment}
+              setUpdateComment={setUpdateComment}
+            />
+          </>
+        )}
       </div>
     </div>
   );

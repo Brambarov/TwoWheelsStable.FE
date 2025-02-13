@@ -63,8 +63,8 @@ const Discussion: React.FC<{
   };
 
   return (
-    <div className="tws-container-flex">
-      <div className="tws-container-flex-column">
+    <div >
+      <div >
         <div className="tws-list">
           <h2>Discussion</h2>
           <ul>
@@ -99,7 +99,7 @@ const Discussion: React.FC<{
           </ul>
         </div>
       </div>
-      <div className="tws-container-flex-column">
+      <div >
         <div className="tws-form-container">
           <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
 
