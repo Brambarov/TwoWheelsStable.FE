@@ -8,10 +8,17 @@ const SpecsTable: React.FC<Specs> = ({ specs }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleTable = () => setIsExpanded(!isExpanded);
 
+  const formatKey = (key: string) => {
+    return key
+      .replace(/([a-z])([A-Z])/g, "$1 $2")
+      .toLowerCase()
+      .replace(/^./, (str) => str.toUpperCase());
+  };
+
   return (
-    <div>
+    <div className="tws-container-column">
       <h2>Specifications</h2>
-      <table>
+      <table className="tws-table">
         <thead>
           <tr>
             <th>Property</th>
@@ -23,13 +30,13 @@ const SpecsTable: React.FC<Specs> = ({ specs }) => {
             .slice(0, isExpanded ? Object.entries(specs).length : 5)
             .map(([key, value]) => (
               <tr key={key}>
-                <td>{key}</td>
+                <td>{formatKey(key)}</td>
                 <td>{value}</td>
               </tr>
             ))}
         </tbody>
       </table>
-      <button onClick={toggleTable}>
+      <button className="tws-button-submit" onClick={toggleTable}>
         {!isExpanded ? "Expand" : "Compact"}
       </button>
     </div>

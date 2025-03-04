@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { extractIdFromHref, toString } from "../../../utils/String";
 import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
 import ConfirmModal from "../../ConfirmModal/ConfirmModal";
-import SpecsTable from "../../Specs/Table";
+import SpecsTable from "../../Specs/Specs";
 import Schedule from "../../Schedule/Schedule";
 import { useAuth } from "../../../context/AuthContext";
 import { useLocation } from "react-router-dom";

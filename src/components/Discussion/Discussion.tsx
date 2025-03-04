@@ -11,7 +11,6 @@ const Discussion: React.FC<{
   updateComment: any;
   setUpdateComment: any;
 }> = ({
-  motorcycleUserHref,
   comments,
   onCreate,
   onUpdate: onEdit,
@@ -63,8 +62,8 @@ const Discussion: React.FC<{
   };
 
   return (
-    <div >
-      <div >
+    <div className="tws-container-row">
+      <div className="tws-list-container">
         <div className="tws-list">
           <h2>Discussion</h2>
           <ul>
@@ -99,37 +98,35 @@ const Discussion: React.FC<{
           </ul>
         </div>
       </div>
-      <div >
-        <div className="tws-form-container">
-          <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
+      <div className="tws-form-container">
+        <h2>{isUpdating ? "Edit Comment" : "Add Comment"}</h2>
 
-          <form
-            className="tws-form"
-            onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}
-          >
-            <div className="tws-form-group">
-              <input
-                type="text"
-                name="title"
-                placeholder="Title"
-                value={comment.title}
-                onChange={handleCommentInputChange}
-                required
-              />
-              <textarea
-                name="content"
-                placeholder="Content"
-                value={comment.content}
-                onChange={handleCommentInputChange}
-                required
-              />
-            </div>
+        <form
+          className="tws-form"
+          onSubmit={isUpdating ? handleUpdateComment : handleCreateComment}
+        >
+          <div className="tws-form-group">
+            <input
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={comment.title}
+              onChange={handleCommentInputChange}
+              required
+            />
+            <textarea
+              name="content"
+              placeholder="Content"
+              value={comment.content}
+              onChange={handleCommentInputChange}
+              required
+            />
+          </div>
 
-            <button className="tws-button-submit" type="submit">
-              {isUpdating ? "Save Changes" : "Submit Comment"}
-            </button>
-          </form>
-        </div>
+          <button className="tws-button-submit" type="submit">
+            {isUpdating ? "Save Changes" : "Submit Comment"}
+          </button>
+        </form>
       </div>
     </div>
   );

@@ -27,11 +27,22 @@ h1 {
   margin: 0;
 }
 
-.tws-container {
+.tws-container-column {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.tws-container-row {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
 }
 /* #endregion Generic */
 
@@ -239,6 +250,14 @@ h1 {
 /* #endregion From */
 
 /* #region List */
+.tws-list-container {
+  background-color: #072c49;
+  width: 50%;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .tws-list {
   background-color: #072c49;
   color: #ecf0f1;
@@ -337,3 +356,11 @@ h1 {
 }
 
 /* #endregion Modal */
+
+/* #region Table */
+.tws-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+}
+/* #endregion Table */

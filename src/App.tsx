@@ -19,7 +19,7 @@ const App = () => {
   };
 
   return (
-    <div className="tws-container">
+    <div className="tws-container-column">
       <Navbar onLogout={handleLogout} />
       <Routes>
         <Route

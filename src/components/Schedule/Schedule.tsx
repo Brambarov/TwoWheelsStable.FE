@@ -78,8 +78,8 @@ const Schedule: React.FC<{
   };
 
   return (
-    <div>
-      <div>
+    <div className="tws-container-row">
+      <div className="tws-list-container">
         <div className="tws-list">
           <h2>Maintenance Schedule</h2>
           <ul>
@@ -113,63 +113,61 @@ const Schedule: React.FC<{
         </div>
       </div>
 
-      <div>
+      <div className="tws-form-container">
         {motorcycleUserHref === href && (
           <>
-            <div className="tws-form-container">
-              <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
+            <h2>{isUpdating ? "Update Job" : "Add Job"}</h2>
 
-              <form
-                className="tws-form"
-                onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}
-              >
-                <div className="tws-form-group">
-                  <input
-                    type="text"
-                    name="title"
-                    placeholder="Job Title"
-                    value={job.title}
-                    onChange={handleJobInputChange}
-                    required
-                  />
-                  <textarea
-                    name="description"
-                    placeholder="Job Description"
-                    value={job.description}
-                    onChange={handleJobInputChange}
-                    required
-                  />
-                  Cost
-                  <input
-                    type="number"
-                    name="cost"
-                    placeholder="Cost"
-                    value={job.cost}
-                    onChange={handleJobInputChange}
-                    required
-                  />
-                  Due Date
-                  <input
-                    type="date"
-                    name="dueDate"
-                    value={job.dueDate}
-                    onChange={handleJobInputChange}
-                  />
-                  Due Mileage
-                  <input
-                    type="number"
-                    name="dueMileage"
-                    placeholder="Due Mileage"
-                    value={job.dueMileage}
-                    onChange={handleJobInputChange}
-                  />
-                </div>
+            <form
+              className="tws-form"
+              onSubmit={isUpdating ? handleUpdateJob : handleCreateJob}
+            >
+              <div className="tws-form-group">
+                <input
+                  type="text"
+                  name="title"
+                  placeholder="Job Title"
+                  value={job.title}
+                  onChange={handleJobInputChange}
+                  required
+                />
+                <textarea
+                  name="description"
+                  placeholder="Job Description"
+                  value={job.description}
+                  onChange={handleJobInputChange}
+                  required
+                />
+                Cost
+                <input
+                  type="number"
+                  name="cost"
+                  placeholder="Cost"
+                  value={job.cost}
+                  onChange={handleJobInputChange}
+                  required
+                />
+                Due Date
+                <input
+                  type="date"
+                  name="dueDate"
+                  value={job.dueDate}
+                  onChange={handleJobInputChange}
+                />
+                Due Mileage
+                <input
+                  type="number"
+                  name="dueMileage"
+                  placeholder="Due Mileage"
+                  value={job.dueMileage}
+                  onChange={handleJobInputChange}
+                />
+              </div>
 
-                <button className="tws-button-submit" type="submit">
-                  {isUpdating ? "Save Changes" : "Create Job"}
-                </button>
-              </form>
-            </div>
+              <button className="tws-button-submit" type="submit">
+                {isUpdating ? "Save Changes" : "Create Job"}
+              </button>
+            </form>
           </>
         )}
       </div>
