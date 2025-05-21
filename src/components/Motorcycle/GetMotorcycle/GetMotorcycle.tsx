@@ -7,10 +7,8 @@ import {
   getResource,
   updateResource,
 } from "../../../api";
-import { useNavigate } from "react-router-dom";
 import { extractIdFromHref, toString } from "../../../utils/String";
 import MotorcycleHeader from "../MotorcycleHeader/MotorcycleHeader";
-import ConfirmModal from "../../ConfirmModal/ConfirmModal";
 import SpecsTable from "../../Specs/Specs";
 import Schedule from "../../Schedule/Schedule";
 import { useAuth } from "../../../context/AuthContext";
@@ -24,11 +22,9 @@ const GetMotorcycle: React.FC = () => {
   const motorcycleId = extractIdFromHref(motorcycleHref);
   const [motorcycle, setMotorcycle] = useState<any>(null);
   const [images, setImages] = useState<string[]>([]);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [updateJob, setUpdateJob] = useState<any | null>(null);
   const [updateComment, setUpdateComment] = useState<any | null>(null);
   const [error, setError] = useState("");
-  const navigate = useNavigate();
 
   useEffect(() => {
     const getMotorcycle = async () => {
@@ -49,17 +45,6 @@ const GetMotorcycle: React.FC = () => {
 
     getMotorcycle();
   }, [motorcycleId]);
-
-  const handleDelete = async () => {
-    try {
-      await deleteResource(motorcycleHref);
-      navigate("/stable");
-    } catch (err) {
-      setError("Failed to delete motorcycle!");
-    } finally {
-      setShowConfirmation(false);
-    }
-  };
 
   const handleCreateJob = async (job: any) => {
     try {
@@ -157,38 +142,6 @@ const GetMotorcycle: React.FC = () => {
       <h1>Motorcycle Details</h1>
       <div>
         <MotorcycleHeader motorcycle={motorcycle} images={images} />
-
-        {motorcycle.userHref === href && (
-          <>
-            <button
-              className="tws-button-warning"
-              onClick={() =>
-                navigate(`/motorcycles/edit/${motorcycleId}`, {
-                  state: { href: motorcycleHref },
-                })
-              }
-            >
-              Update
-            </button>
-
-            <button
-              className="tws-button-danger"
-              onClick={() => {
-                setShowConfirmation(true);
-              }}
-            >
-              Delete
-            </button>
-          </>
-        )}
-
-        {showConfirmation && (
-          <ConfirmModal
-            message="Are you sure you want to delete this motorcycle?"
-            onConfirm={handleDelete}
-            onCancel={() => setShowConfirmation(false)}
-          />
-        )}
 
         <SpecsTable specs={motorcycle.specs} />
       </div>
