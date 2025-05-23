@@ -20,27 +20,34 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
 
   return (
     <nav className="tws-navbar">
-      <Link className="tws-nav-item" to="/">
+      <Link className="tws-nav-item tws-button-submit" to="/">
         Home
       </Link>
       {accessToken ? (
         <>
-          <Link className="tws-nav-item" to="/motorcycles/new">
+          <Link
+            className="tws-nav-item tws-button-submit"
+            to="/motorcycles/new"
+          >
             Create Motorcycle
           </Link>
-          <Link className="tws-nav-item" to="/stable">
+          <Link className="tws-nav-item tws-button-submit" to="/stable">
             My Stable
           </Link>
-          <Link className="tws-nav-item" to="/" onClick={onLogout}>
+          <Link
+            className="tws-nav-item tws-button-submit"
+            to="/"
+            onClick={onLogout}
+          >
             Logout
           </Link>
         </>
       ) : (
         <>
-          <Link className="tws-nav-item" to="/login">
+          <Link className="tws-nav-item tws-button-submit" to="/login">
             Login
           </Link>
-          <Link className="tws-nav-item" to="/register">
+          <Link className="tws-nav-item tws-button-submit" to="/register">
             Register
           </Link>
         </>
