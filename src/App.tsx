@@ -20,6 +20,7 @@ const App = () => {
 
   return (
     <div className="tws-container-column">
+      <h1>Two Wheels Stable</h1>
       <Navbar onLogout={handleLogout} />
       <Routes>
         <Route
