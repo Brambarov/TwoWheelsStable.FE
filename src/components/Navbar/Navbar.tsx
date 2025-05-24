@@ -20,22 +20,19 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
 
   return (
     <nav className="tws-navbar">
-      <Link className="tws-nav-item tws-button-submit" to="/">
+      <Link className="tws-nav-item" to="/">
         Home
       </Link>
       {accessToken ? (
         <>
-          <Link
-            className="tws-nav-item tws-button-submit"
-            to="/motorcycles/new"
-          >
+          <Link className="tws-nav-item" to="/motorcycles/new">
             Create Motorcycle
           </Link>
-          <Link className="tws-nav-item tws-button-submit" to="/stable">
+          <Link className="tws-nav-item" to="/stable">
             My Stable
           </Link>
           <Link
-            className="tws-nav-item tws-button-submit"
+            className="tws-nav-item tws-nav-item-logout"
             to="/"
             onClick={onLogout}
           >
@@ -44,10 +41,10 @@ const Navbar: React.FC<Props> = ({ onLogout }) => {
         </>
       ) : (
         <>
-          <Link className="tws-nav-item tws-button-submit" to="/login">
+          <Link className="tws-nav-item" to="/login">
             Login
           </Link>
-          <Link className="tws-nav-item tws-button-submit" to="/register">
+          <Link className="tws-nav-item" to="/register">
             Register
           </Link>
         </>
