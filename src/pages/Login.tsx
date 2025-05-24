@@ -33,7 +33,7 @@ const Login: React.FC<Props> = () => {
 
   return (
     <div className="tws-form-container">
-      <h1>Login</h1>
+      <h2>Login</h2>
 
       {error && <p className="tws-message-error">{error}</p>}
 

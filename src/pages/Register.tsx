@@ -29,7 +29,7 @@ const Register: React.FC = () => {
 
   return (
     <div className="tws-form-container">
-      <h1>Register</h1>
+      <h2>Register</h2>
 
       {error && <p className="tws-message-error">{error}</p>}
       {success && <p className="tws-message-success">{success}</p>}

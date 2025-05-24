@@ -139,7 +139,7 @@ const GetMotorcycle: React.FC = () => {
 
   return (
     <div className="tws-details-container">
-      <h1>Motorcycle Details</h1>
+      <h2>Motorcycle Details</h2>
       <div>
         <MotorcycleHeader motorcycle={motorcycle} images={images} />
 
