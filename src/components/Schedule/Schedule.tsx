@@ -138,7 +138,7 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                   required
                 />
-                Cost
+                <h3>Cost</h3>
                 <input
                   type="number"
                   name="cost"
@@ -147,14 +147,14 @@ const Schedule: React.FC<{
                   onChange={handleJobInputChange}
                   required
                 />
-                Due Date
+                <h3>Due Date</h3>
                 <input
                   type="date"
                   name="dueDate"
                   value={job.dueDate}
                   onChange={handleJobInputChange}
                 />
-                Due Mileage
+                <h3>Due Mileage</h3>
                 <input
                   type="number"
                   name="dueMileage"
